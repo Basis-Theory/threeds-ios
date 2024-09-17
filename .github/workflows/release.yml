@@ -1,0 +1,66 @@
+name: Release
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  tag-and-release:
+    name: Tag and Release
+    runs-on: macOS-latest
+    steps:
+      - name: Start Deploy Message
+        uses: Basis-Theory/github-actions/deploy-slack-action@master
+        with:
+          slack-api-token: ${{ secrets.SLACK_DUCKBOT_API_KEY }}
+          channel: ${{ vars.SLACK_DUCKBOT_PRODUCT_DEPLOY_CHANNEL }}
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.SEMANTIC_RELEASE_PAT }}
+
+      - name: Bump version and push tag
+        id: tag-version
+        uses: mathieudutour/github-tag-action@v6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          default_bump: false
+          tag_prefix: ""
+
+      - name: Commit files
+        if: ${{ steps.tag-version.outputs.release_type != '' }}
+        run: |
+          git config --local user.email "platform@basistheory.com"
+          git config --local user.name "github-actions[bot]"
+
+          sed -i "" "s/\(s.version = \)'[^']*'/\1'${{ steps.tag-version.outputs.new_tag }}'/g" ThreeDS.podspec
+          sed -i "" "s/\(:tag => \)'[^']*'/\1'${{ steps.tag-version.outputs.new_tag }}'/g" ThreeDS.podspec
+          sed -i "" "s/\(public static let version = \)\"[^\"]*\"/\1\"${{ steps.tag-version.outputs.new_tag }}\"/g" ThreeDS/Sources/ThreeDS/ThreeDS.swift
+
+          echo "${{ steps.tag-version.outputs.changelog }}" | cat - CHANGELOG.md > temp && mv temp CHANGELOG.md
+
+          git add CHANGELOG.md ThreeDS.podspec ThreeDS/Sources/ThreeDS/ThreeDS.swift
+          git commit -m "chore(release): upating podspec and changelog ${{ steps.tag-version.outputs.new_tag }} [skip ci]" || echo "Nothing to update"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        if: ${{ steps.tag-version.outputs.release_type != '' }}
+        with:
+          github_token: ${{ secrets.SEMANTIC_RELEASE_PAT }}
+          branch: ${{ github.ref }}
+
+      - name: Push CocoaPods
+        if: ${{ steps.tag-version.outputs.release_type != '' }}
+        run: pod trunk push --allow-warnings
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+
+      - name: Stop Deploy Message
+        if: always()
+        uses: Basis-Theory/github-actions/deploy-slack-action@master
+        with:
+          slack-api-token: ${{ secrets.SLACK_DUCKBOT_API_KEY }}
+          channel: ${{ vars.SLACK_DUCKBOT_PRODUCT_DEPLOY_CHANNEL }}
+          status: 'done'
