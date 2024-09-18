@@ -1,13 +1,13 @@
 //
-//  ThreeDsTesterUITestsLaunchTests.swift
-//  ThreeDsTesterUITests
+//  ThreeDSTesterUITestsLaunchTests.swift
+//  ThreeDSTesterUITests
 //
-//  Created by kevin on 17/9/24.
+//  Created by kevin on 18/9/24.
 //
 
 import XCTest
 
-final class ThreeDsTesterUITestsLaunchTests: XCTestCase {
+final class ThreeDSTesterUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  ThreeDsTester
+//  ThreeDSTester
 //
-//  Created by kevin on 17/9/24.
+//  Created by kevin on 18/9/24.
 //
 
 import UIKit

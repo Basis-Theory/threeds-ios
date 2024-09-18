@@ -1,13 +1,13 @@
 //
-//  ThreeDsTesterUITests.swift
-//  ThreeDsTesterUITests
+//  ThreeDSTesterUITests.swift
+//  ThreeDSTesterUITests
 //
-//  Created by kevin on 17/9/24.
+//  Created by kevin on 18/9/24.
 //
 
 import XCTest
 
-final class ThreeDsTesterUITests: XCTestCase {
+final class ThreeDSTesterUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

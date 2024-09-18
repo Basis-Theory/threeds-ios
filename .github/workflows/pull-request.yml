@@ -23,7 +23,7 @@ jobs:
       - name: Clean Derived Data
         run: rm -rf ~/Library/Developer/Xcode/DerivedData/*
 
-      - name: Testing with ThreeDsTester app
+      - name: Testing with ThreeDSTester app
         run: exec .github/scripts/integration-test.sh
         env:
           DEV_BT_API_KEY: ${{ secrets.DEV_BT_API_KEY }}
