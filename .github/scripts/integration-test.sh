@@ -23,7 +23,8 @@ if ! xcrun xcodebuild -scheme 'ThreeDS' \
     -configuration Debug \
     -sdk 'iphonesimulator' \
     -destination platform="iOS Simulator,OS=18.0,name=iPhone 16 Pro" \
-    -derivedDataPath ThreeDS/.build; then
+    -derivedDataPath ThreeDS/.build \
+    | xcpretty; then
     echo "Error: xcodebuild failed"
     exit 1
 fi
@@ -35,7 +36,8 @@ if ! xcrun xcodebuild -scheme 'ThreeDSTester' \
     -configuration Debug \
     -sdk 'iphonesimulator' \
     -destination platform="iOS Simulator,OS=18.0,name=iPhone 16 Pro" \
-    -derivedDataPath .build; then
+    -derivedDataPath .build \
+    | xcpretty; then
     echo "Error: xcodebuild failed"
     exit 1
 fi
