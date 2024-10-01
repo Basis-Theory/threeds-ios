@@ -13,9 +13,16 @@ cat <<EOT > ./ThreeDSTester/Env.plist
 </plist>
 EOT
 
-xcodebuild clean test \
-    -project ./ThreeDSTester/ThreeDSTester.xcodeproj \
-    -scheme ThreeDSTester \
-    -configuration Debug \
-    -destination platform="iOS Simulator,OS=17.5,name=iPhone 14 Pro" \
-    | xcpretty
+xcrun xcodebuild -scheme 'ThreeDSTester' \
+-project 'ThreeDSTester/ThreeDSTester.xcodeproj' \
+-configuration Debug \
+-sdk 'iphonesimulator' \
+-destination platform="iOS Simulator,OS=18.0,name=iPhone 14 Pro" \
+-derivedDataPath build
+| xcpretty
+
+booted_device_id=$(xcrun simctl list devices booted | grep -oE "[A-F0-9-]{36}")
+
+xcrun simctl install $booted_device_id build/Build/Products/Debug-iphonesimulator/ThreeDSTester.app
+
+maestro --device $booted_device_id test .maestro/tests
