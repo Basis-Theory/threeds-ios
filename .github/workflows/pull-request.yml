@@ -23,6 +23,15 @@ jobs:
       - name: Clean Derived Data
         run: rm -rf ~/Library/Developer/Xcode/DerivedData/*
 
+      - name: Create .netrc file
+        run: |
+          cat <<EOF > ~/.netrc
+          machine ravelin.mycloudrepo.io
+            login ${{ vars.RAVELIN_SDK_USERNAME }} 
+            password ${{ secrets.RAVELIN_SDK_PASSWORD }}  
+          EOF
+          chmod 600 ~/.netrc
+
       - name: Testing with ThreeDSTester app
         run: exec .github/scripts/integration-test.sh
         env:
