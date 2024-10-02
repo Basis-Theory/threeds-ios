@@ -1,0 +1,7 @@
+appId: com.basistheory.ThreeDSTester
+---
+- launchApp
+
+# Ravelin SDK initializes correctly
+
+- assertVisible: "An emulator is being used to run the App."

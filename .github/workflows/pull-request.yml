@@ -8,7 +8,7 @@ on:
 jobs:
   test:
     name: Testing 3DS Package
-    runs-on: macOS-latest
+    runs-on: macOS-latest-xlarge
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -23,6 +23,22 @@ jobs:
       - name: Clean Derived Data
         run: rm -rf ~/Library/Developer/Xcode/DerivedData/*
 
+      - name: Install Maestro
+        run: |
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+
+      - name: Create .netrc file
+        run: |
+          cat <<EOF > ~/.netrc
+          machine ravelin.mycloudrepo.io
+            login ${{ vars.RAVELIN_SDK_USERNAME }} 
+            password ${{ secrets.RAVELIN_SDK_PASSWORD }}  
+          EOF
+          chmod 600 ~/.netrc
+
+      - run: npx envinfo
+      
       - name: Testing with ThreeDSTester app
         run: exec .github/scripts/integration-test.sh
         env:
