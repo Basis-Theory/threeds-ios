@@ -8,7 +8,7 @@ on:
 jobs:
   test:
     name: Testing 3DS Package
-    runs-on: macOS-latest
+    runs-on: macOS-latest-xlarge
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -37,6 +37,8 @@ jobs:
           EOF
           chmod 600 ~/.netrc
 
+      - run: npx envinfo
+      
       - name: Testing with ThreeDSTester app
         run: exec .github/scripts/integration-test.sh
         env:

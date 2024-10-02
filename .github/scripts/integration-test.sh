@@ -15,6 +15,11 @@ set -eo pipefail
 EOT
 } || { echo "Error: Failed to create Env.plist"; exit 1; }
 
+echo "Booting Simulator"
+
+SIMULATOR_UUID=$(xcrun simctl list devices | grep "iPhone 16 Pro" | grep -oE '[0-9A-F-]{36}' | head -n 1) || echo "none"
+
+xcrun simctl boot $SIMULATOR_UUID
 
 echo "Building ThreeDS Library"
 
@@ -22,32 +27,37 @@ if ! xcrun xcodebuild -scheme 'ThreeDS' \
     -project 'ThreeDS/ThreeDS.xcodeproj' \
     -configuration Debug \
     -sdk 'iphonesimulator' \
-    -destination platform="iOS Simulator,OS=18.0,name=iPhone 16 Pro" \
+    -destination platform="iOS Simulator,id=${SIMULATOR_UUID}" \
     -derivedDataPath ThreeDS/.build \
     | xcpretty; then
     echo "Error: xcodebuild failed"
     exit 1
 fi
 
-echo "Building ThreeDSTester"
+echo "Building ThreeDSTester app"
 
 if ! xcrun xcodebuild -scheme 'ThreeDSTester' \
     -project 'ThreeDSTester/ThreeDSTester.xcodeproj' \
     -configuration Debug \
     -sdk 'iphonesimulator' \
-    -destination platform="iOS Simulator,OS=18.0,name=iPhone 16 Pro" \
+    -destination platform="iOS Simulator,id=${SIMULATOR_UUID}" \
     -derivedDataPath .build \
     | xcpretty; then
     echo "Error: xcodebuild failed"
     exit 1
 fi
 
-echo "Running maestro tests"
+xcrun simctl install $SIMULATOR_UUID .build/Build/Products/Debug-iphonesimulator/ThreeDSTester.app
 
-if ! maestro test .maestro/tests; then
+echo "Running maestro tests on device: $SIMULATOR_UUID"
+
+export MAESTRO_CLI_NO_ANALYTICS=1
+export MAESTRO_DRIVER_STARTUP_TIMEOUT=240000
+if ! maestro --device $SIMULATOR_UUID test --format=junit .maestro/tests; then
     echo "Error: Maestro tests failed"
     exit 1
 fi
+
 
 echo "All operations completed successfully."
 
