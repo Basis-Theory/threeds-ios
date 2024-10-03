@@ -17,18 +17,20 @@ class ViewController: UIViewController {
         do {
             threeDS = try ThreeDS.builder()
                 .withSandbox()
-                .withApiKey("publishable_key_test_Vr7SqP2lAV9p7UD4vvEtprhDCmhsu6DRaQ1HzY")
+                .withApiKey("")
                 .withAuthenticationEndpoint("")
                 .build()
             
      
-            try threeDS.initialize() { [weak self] warnings in
-                DispatchQueue.main.async {
-                    if let warnings = warnings, !warnings.isEmpty {
-                        let messages = warnings.map { $0.message }.joined(separator: "\n")
-                        self?.showToast(message: messages)
-                    } else {
-                        self?.showToast(message: "No warnings.")
+            Task {
+                try await threeDS.initialize() { [weak self] warnings in
+                    DispatchQueue.main.async {
+                        if let warnings = warnings, !warnings.isEmpty {
+                            let messages = warnings.map { $0.message }.joined(separator: "\n")
+                            self?.showToast(message: messages)
+                        } else {
+                            self?.showToast(message: "No warnings.")
+                        }
                     }
                 }
             }

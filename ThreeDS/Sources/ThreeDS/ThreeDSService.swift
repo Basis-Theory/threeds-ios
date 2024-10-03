@@ -4,13 +4,15 @@ import Ravelin3DS
 import OSLog
 
 
+@available(iOS 15.0, *)
 public class ThreeDS {
     private var apiKey: String
     private let region: String
     private let locale: String
     private let sandbox: Bool
-    private let apiBaseUrl: String
     private let authenticationEndpoint: String
+    
+    private var apiBaseUrl: String = "api.basistheory.com"
     private var service: ThreeDS2Service!
     
     public init(
@@ -30,14 +32,32 @@ public class ThreeDS {
     }
     
     @discardableResult
-    public func initialize(completion: @escaping ([ThreeDSWarning]?) -> Void) throws -> String {
+    public func initialize(completion: @escaping ([ThreeDSWarning]?) -> Void) async throws -> String {
+        let endpoint = "https://cdn.basistheory.com/keys/3ds.json"
+        
+        guard let url = URL(string: endpoint) else {
+            OSLogger.log("Invalid URL: \(endpoint)")
+            throw ThreeDsServiceError.invalidURL
+        }
+        
+        let (data, response) = try await URLSession.shared.data(from: url)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw ThreeDsServiceError.invalidResponse
+        }
+        
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        
+        let keys = try decoder.decode(RavelinKeys.self, from: data)
+        
         var msg = "initializing"
         service = ThreeDS2SDK()
         
         let configParameters = ConfigParameters()
         try configParameters.addParam(
             paramType: .publishableApiKey,
-            paramValue: apiKey)
+            paramValue: sandbox ? keys.test : keys.live)
         
         
         do {
@@ -70,6 +90,7 @@ public class ThreeDS {
     
 }
 
+@available(iOS 15.0, *)
 public class ThreeDSServiceBuilder {
     /** Default to EU, according to Ravelin our account was setup to work in the EU
      ** US is reserved for "big ho ldings" in the US
@@ -150,6 +171,8 @@ public class ThreeDSServiceBuilder {
 enum ThreeDsServiceError: Error {
     case missingApiKey
     case missingAuthenticationEndpoint
+    case invalidResponse
+    case invalidURL
 }
 
 enum RegionEnum {
@@ -167,4 +190,9 @@ enum OSLogger {
 
 public struct ThreeDSWarning {
     public let message: String
+}
+
+struct RavelinKeys: Codable {
+    let test: String
+    let live: String
 }
