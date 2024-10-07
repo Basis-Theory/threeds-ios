@@ -5,3 +5,6 @@ appId: com.basistheory.ThreeDSTester
 # Ravelin SDK initializes correctly
 
 - assertVisible: "An emulator is being used to run the App."
+- tapOn: "Ok"
+- tapOn: "Create 3DS Session"
+- assertVisible: "Session Created"
