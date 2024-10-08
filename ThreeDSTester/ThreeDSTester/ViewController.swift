@@ -9,30 +9,114 @@ import OSLog
 import ThreeDS
 import UIKit
 
-class ViewController: UIViewController {
+enum ThreeDSError: Error {
+    case missingSessionId
+}
+
+class ViewController: UIViewController, UITextFieldDelegate {
     private var threeDSService: ThreeDSService!
+    private var sessionId: String? = nil
 
     @objc func createThreeDsSession() {
         Task {
             do {
                 let session = try await threeDSService.createSession(
-                    tokenId: "72cb3d3a-a1c0-4d47-99ce-447c028ff212")
+                    tokenId: textFieldContent)
 
-                OSLogger.log("Session created: \(session)")
-
-                let alert = UIAlertController(
-                    title: "Session created",
-                    message: "Session ID: \(session.id)",
-                    preferredStyle: .alert)
-
-                alert.addAction(
-                    UIAlertAction(title: "OK", style: .default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                showToast(message: "3DS Session created")
 
             } catch {
                 print("\(error) -> \(error.localizedDescription)")
             }
         }
+    }
+
+    @objc func startChallenge() {
+        Task {
+            do {
+                guard let sessionId = sessionId else {
+                    throw ThreeDSError.missingSessionId
+                }
+
+                try await threeDSService.startChallenge(
+                    sessionId: sessionId, viewController: self,
+                    onCompleted: { result in
+                        print("completed \(result)")
+                    },
+                    onFailure: { result in
+                        print("failed \(result)")
+                    })
+            } catch {
+                print("\(error) -> \(error.localizedDescription)")
+            }
+        }
+    }
+
+    func createSessionButton() {
+        let button = UIButton(type: .system)
+        button.setTitle("Create Session", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .systemBlue
+        button.layer.cornerRadius = 10
+
+        self.view.addSubview(button)
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            button.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            button.widthAnchor.constraint(equalToConstant: 200),
+            button.heightAnchor.constraint(equalToConstant: 44),
+        ])
+
+        button.addTarget(self, action: #selector(createThreeDsSession), for: .touchUpInside)
+    }
+
+    func startChallengeButton() {
+        let button = UIButton(type: .system)
+        button.setTitle("Start Challenge", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .systemBlue
+        button.layer.cornerRadius = 10
+
+        self.view.addSubview(button)
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            button.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 50),
+            button.widthAnchor.constraint(equalToConstant: 200),
+            button.heightAnchor.constraint(equalToConstant: 44),
+        ])
+
+        button.addTarget(self, action: #selector(startChallenge), for: .touchUpInside)
+    }
+
+    var textFieldContent: String = "" {
+        didSet {
+            print("TextField content: \(textFieldContent)")
+        }
+    }
+
+    func tokenIdInputField() {
+        let textField: UITextField = {
+            let tf = UITextField()
+            tf.borderStyle = .roundedRect
+            tf.placeholder = "Token ID"
+            tf.translatesAutoresizingMaskIntoConstraints = false
+            return tf
+        }()
+
+        textField.delegate = self
+
+        view.addSubview(textField)
+
+        NSLayoutConstraint.activate([
+            textField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            textField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -300),
+            textField.widthAnchor.constraint(equalToConstant: 200),
+            textField.heightAnchor.constraint(equalToConstant: 40),
+        ])
     }
 
     override func viewDidLoad() {
@@ -43,7 +127,7 @@ class ViewController: UIViewController {
                 .withSandbox()
                 .withApiKey("key_dev_prod_us_pub_JU4qttr2YJxLJqg64S4Tf5")
                 .withBaseUrl("api.flock-dev.com")
-                .withAuthenticationEndpoint("")
+                .withAuthenticationEndpoint("http://localhost:3333/3ds/authenticate")
                 .build()
 
             Task {
@@ -52,13 +136,7 @@ class ViewController: UIViewController {
                         if let warnings = warnings, !warnings.isEmpty {
                             let messages = warnings.map { $0.message }.joined(separator: "\n")
 
-                            let alert = UIAlertController(
-                                title: "Warning!",
-                                message: messages,
-                                preferredStyle: .alert)
-                            alert.addAction(
-                                UIAlertAction(title: "OK", style: .default, handler: nil))
-                            self?.present(alert, animated: true, completion: nil)
+                            self?.showToast(message: messages)
                         } else {
                             self?.showToast(message: "No warnings.")
                         }
@@ -66,28 +144,31 @@ class ViewController: UIViewController {
                 }
             }
 
-            let button = UIButton(type: .system)
-            button.setTitle("Create 3DS Session", for: .normal)
-            button.setTitleColor(.white, for: .normal)
-            button.backgroundColor = .systemBlue
-            button.layer.cornerRadius = 10
+            tokenIdInputField()
 
-            self.view.addSubview(button)
-            button.translatesAutoresizingMaskIntoConstraints = false
+            createSessionButton()
 
-            NSLayoutConstraint.activate([
-                button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-                button.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-                button.widthAnchor.constraint(equalToConstant: 200),
-                button.heightAnchor.constraint(equalToConstant: 44),
-            ])
-
-            button.addTarget(self, action: #selector(createThreeDsSession), for: .touchUpInside)
+            startChallengeButton()
 
         } catch {
             // error handling
         }
 
+    }
+
+    func textField(
+        _ textField: UITextField, shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool {
+        if let text = textField.text as NSString? {
+            let updatedText = text.replacingCharacters(in: range, with: string)
+            textFieldContent = updatedText
+        }
+        return true
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textFieldContent = textField.text ?? ""
     }
 
 }

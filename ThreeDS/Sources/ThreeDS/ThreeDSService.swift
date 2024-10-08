@@ -37,9 +37,6 @@ public class ThreeDSService {
 
 @available(iOS 15.0, *)
 public class ThreeDSServiceBuilder {
-    /** Default to EU, according to Ravelin our account was setup to work in the EU
-     ** US is reserved for "big ho ldings" in the US
-     **/
     private let regionMap: [RegionEnum: String] = [.EU: "EuLive", .US: "USLive"]
     private var apiKey: String?
     private var region: String
@@ -143,7 +140,7 @@ struct RavelinKeys: Codable {
     let live: String
 }
 
-public struct CreateThreeDsSessionResponse: Decodable, Encodable {
+public struct CreateThreeDsSessionResponse: Decodable, Encodable, Sendable {
     public let id: String
     public let methodUrl: String
     public let cardBrand: String
@@ -154,6 +151,10 @@ public struct CreateThreeDsSessionResponse: Decodable, Encodable {
 
 struct UpdateThreeDsSessionRequest: Codable {
     let deviceInfo: ThreeDSDeviceInfo
+
+    enum CodingKeys: String, CodingKey {
+        case deviceInfo = "device_info"
+    }
 }
 
 struct ThreeDSDeviceInfo: Codable {
@@ -164,11 +165,26 @@ struct ThreeDSDeviceInfo: Codable {
     var sdkMaxTimeout: String?
     var sdkReferenceNumber: String?
     var sdkRenderOptions: ThreeDSMobileSdkRenderOptions?
+
+    enum CodingKeys: String, CodingKey {
+        case sdkTransactionId = "sdk_transaction_id"
+        case sdkApplicationId = "sdk_application_id"
+        case sdkEncryptionData = "sdk_encryption_data"
+        case sdkEphemeralPublicKey = "sdk_ephemeral_public_key"
+        case sdkMaxTimeout = "sdk_max_timeout"
+        case sdkReferenceNumber = "sdk_reference_number"
+        case sdkRenderOptions = "sdk_render_options"
+    }
 }
 
 struct ThreeDSMobileSdkRenderOptions: Codable {
     var sdkInterface: String?
     var sdkUiType: [String]?
+
+    enum CodingKeys: String, CodingKey {
+        case sdkInterface = "sdk_interface"
+        case sdkUiType = "sdk_ui_type"
+    }
 }
 
 enum RenderOptions: String {
@@ -193,11 +209,11 @@ enum UiTypes: String {
 @available(iOS 15.0, *)
 // Initialization
 extension ThreeDSService {
+    @MainActor
     public func initialize(completion: @escaping ([ThreeDSWarning]?) -> Void) async throws {
         let endpoint = "https://cdn.basistheory.com/keys/3ds.json"
 
         guard let url = URL(string: endpoint) else {
-            OSLogger.log("Invalid URL: \(endpoint)")
             throw ThreeDsServiceError.invalidURL
         }
 
@@ -213,10 +229,6 @@ extension ThreeDSService {
         try configParameters.addParam(
             paramType: .publishableApiKey,
             paramValue: sandbox ? keys.test : keys.live)
-
-        OSLogger.log(
-            "\(try configParameters.getParamValue(paramType: .registeredApplicationProviderIdentifiers))"
-        )
 
         do {
             // TODO: rewrite to use async/await(?)
@@ -267,23 +279,80 @@ extension ThreeDSService {
         }
 
         let decodedResponse = try decoder.decode(T.self, from: data)
+
+        print(decodedResponse)
+
         return decodedResponse
     }
 }
 
 @available(iOS 15.0, *)
-// Session Creation
+extension ThreeDSService {
+    public func startChallenge(
+        sessionId: String, viewController: UIViewController,
+        onCompleted: @escaping (ChallengeResponse) -> Void,
+        onFailure: @escaping (ChallengeResponse) -> Void
+    ) async throws {
+        var authenticationResponse = try await authenticateSession(sessionId: sessionId)
+
+        if authenticationResponse.authenticationStatus == "challenge" {
+            var params = ChallengeParameters()
+            params.set3DSServerTransactionID(sessionId)
+            params.setAcsTransactionID(authenticationResponse.acsTransactionId)
+            params.setAcsRefNumber(authenticationResponse.acsReferenceNumber)
+            params.setAcsSignedContent(authenticationResponse.acsSignedContent)
+            params.setThreeDSRequestorAppURL(
+                "https://www.ravelin.com/?transID=\(try transaction.getAuthenticationRequestParameters().getSDKTransactionID())"
+            )
+
+            let challengeStatusReceiver = ChallengeHandler(
+                sessionId: sessionId,
+                authenticationResponse: authenticationResponse,
+                onCompleted: onCompleted,
+                onFailure: onFailure)
+
+            try transaction.doChallenge(
+                challengeParameters: params,
+                challengeStatusReceiver: challengeStatusReceiver,
+                timeOut: 5,
+                challengeView: ChallengeViewImplementation(viewController: viewController))
+        }
+
+    }
+
+    func authenticateSession(sessionId: String) async throws -> AuthenticationResponse {
+        let jsonBody: [String: String] = [
+            "sessionId": sessionId
+        ]
+
+        let requestBody = try JSONSerialization.data(withJSONObject: jsonBody, options: [])
+
+        guard let authenticationEndpoint = URL(string: self.authenticationEndpoint) else {
+            throw ThreeDsServiceError.invalidURL
+        }
+
+        return try await makeRequest(
+            url: authenticationEndpoint,
+            method: "POST",
+            body: requestBody,
+            expectedStatusCodes: [200]
+        )
+    }
+}
+
+@available(iOS 15.0, *)
 extension ThreeDSService {
     public func createSession(
         tokenId: String
     ) async throws -> CreateThreeDsSessionResponse {
-        let session = try await _createSession(tokenId: tokenId)
+        let _token = "\(tokenId)"
+        let session = try await _createSession(tokenId: _token)
 
         self.transaction = try service.createTransaction(
             directoryServerID: session.directoryServerId,
             messageVersion: session.recommendedVersion)
 
-        let authRequestParams = try self.transaction.getAuthenticationRequestParameters()
+        let authRequestParams = try await self.transaction.getAuthenticationRequestParameters()
 
         let updatedSession = try await _updateSession(
             authRequestParams: authRequestParams, sessionId: session.id)
@@ -353,5 +422,145 @@ extension ThreeDSService {
             body: payload,
             expectedStatusCodes: [200]
         )
+    }
+}
+
+struct AuthenticationResponse: Codable {
+    let panTokenId: String
+    let threedsVersion: String
+    let acsTransactionId: String
+    let dsTransactionId: String
+    let sdkTransactionId: String
+    let acsReferenceNumber: String
+    let dsReferenceNumber: String
+    let authenticationValue: String? = nil
+    let authenticationStatus: String
+    let authenticationStatusCode: String
+    let eci: String = ""
+    let purchaseAmount: String
+    let merchantName: String
+    let currency: String?
+    let acsChallengeMandated: String? = nil
+    let authenticationChallengeType: String? = nil
+    let authenticationStatusReason: String? = nil
+    let acsSignedContent: String
+    let messageExtensions: [String] = []
+    let acsRenderingType: AcsRenderingType? = nil
+}
+
+struct AcsRenderingType: Codable {
+    let acsInterface: String
+    let acsUiTemplate: String
+}
+
+class ChallengeViewImplementation: ChallengeView {
+    private(set) var viewController: UIViewController
+
+    init(viewController: UIViewController) {
+        self.viewController = viewController
+    }
+}
+
+class ChallengeHandler: ChallengeStatusReceiver {
+
+    let sessionId: String
+    let authenticationResponse: AuthenticationResponse
+    let transactionStatusMap = [
+        "Y": "successful",
+        "A": "attempted",
+        "N": "failed",
+        "U": "unavailable",
+        "R": "rejected",
+    ]
+    let onCompleted: (ChallengeResponse) -> Void
+    let onFailure: (ChallengeResponse) -> Void
+
+    init(
+        sessionId: String,
+        authenticationResponse: AuthenticationResponse,
+        onCompleted: @escaping (ChallengeResponse) -> Void,
+        onFailure: @escaping (ChallengeResponse) -> Void
+    ) {
+        self.sessionId = sessionId
+        self.authenticationResponse = authenticationResponse
+        self.onCompleted = onCompleted
+        self.onFailure = onFailure
+    }
+
+    func completed(completionEvent: CompletionEvent) {
+        if let transactionStatus = transactionStatusMap[try completionEvent.getTransactionStatus()]
+        {
+            OSLogger.log("challenge completed with status: \(transactionStatus)")
+            onCompleted(
+                ChallengeResponse(
+                    id: sessionId,
+                    status: transactionStatus,
+                    details: authenticationResponse.authenticationStatusReason
+                )
+            )
+        } else {
+            OSLogger.log("challenge failed successfully")
+        }
+        closeTransaction()
+    }
+
+    func cancelled() {
+        closeTransaction()
+        OSLogger.log("challenge cancelled")
+        onFailure(
+            ChallengeResponse(
+                id: sessionId,
+                status: "N",
+                details: "Challenge cancelled"))
+    }
+
+    func timedout() {
+        closeTransaction()
+        OSLogger.log("challenge timed out")
+        onFailure(
+            ChallengeResponse(
+                id: sessionId,
+                status: "N",
+                details: "Challenge timed out"))
+    }
+
+    func protocolError(protocolErrorEvent: ProtocolErrorEvent) {
+        closeTransaction()
+        OSLogger.log("challenge protocol error: \(protocolErrorEvent.getErrorMessage())")
+        onFailure(
+            ChallengeResponse(
+                id: sessionId,
+                status: "N",
+                details: "ProtocolError \(protocolErrorEvent.getErrorMessage())"
+            )
+        )
+    }
+
+    func runtimeError(runtimeErrorEvent: RuntimeErrorEvent) {
+        closeTransaction()
+        OSLogger.log("challenge runtime error: \(runtimeErrorEvent.getErrorMessage())")
+        onFailure(
+            ChallengeResponse(
+                id: sessionId,
+                status: "N",
+                details: "RuntimeError \(runtimeErrorEvent.getErrorMessage())"
+            )
+        )
+    }
+
+    private func closeTransaction() {
+        // close the transaction
+    }
+}
+
+public struct ChallengeResponse: Codable {
+    let id: String
+    let status: String
+    let details: String?
+
+    init(id: String, status: String, details: String? = nil) {
+        self.id = id
+        self.status = status
+        self.details = details
     }
 }
