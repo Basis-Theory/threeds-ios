@@ -8,6 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		0A5B92682CA716470040ED5C /* Ravelin3DS in Frameworks */ = {isa = PBXBuildFile; productRef = 0A5B92672CA716470040ED5C /* Ravelin3DS */; };
+		0A5B9DC82CB75EAE0040ED5C /* ThreeDSService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD0E5B22CA61B0A0075DCFD /* ThreeDSService.swift */; };
+		0A5B9DC92CB75EAE0040ED5C /* ChallengeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DC72CB75C2E0040ED5C /* ChallengeHandler.swift */; };
+		0A5B9DCA2CB75EAE0040ED5C /* libThreeDS.a in Sources */ = {isa = PBXBuildFile; fileRef = 0AD0E50C2CA5F9020075DCFD /* libThreeDS.a */; };
+		0A5B9DCC2CB75EDD0040ED5C /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DCB2CB75EDD0040ED5C /* Utils.swift */; };
+		0A5B9DCE2CB75F770040ED5C /* ThreeDSServiceBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DCD2CB75F770040ED5C /* ThreeDSServiceBuilder.swift */; };
+		0A5B9DD02CB75F8D0040ED5C /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DCF2CB75F8D0040ED5C /* Logger.swift */; };
+		0A5B9DD22CB75FDA0040ED5C /* ThreeDSSerivice+initialize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DD12CB75FDA0040ED5C /* ThreeDSSerivice+initialize.swift */; };
+		0A5B9DD42CB760630040ED5C /* ThreeDSService+makeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DD32CB760630040ED5C /* ThreeDSService+makeRequest.swift */; };
+		0A5B9DD62CB760C20040ED5C /* ThreeDSService+startChallenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DD52CB760C20040ED5C /* ThreeDSService+startChallenge.swift */; };
+		0A5B9DD82CB760E10040ED5C /* ThreeDSService+createSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DD72CB760E10040ED5C /* ThreeDSService+createSession.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,6 +33,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0A5B9DC72CB75C2E0040ED5C /* ChallengeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeHandler.swift; sourceTree = "<group>"; };
+		0A5B9DCB2CB75EDD0040ED5C /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		0A5B9DCD2CB75F770040ED5C /* ThreeDSServiceBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDSServiceBuilder.swift; sourceTree = "<group>"; };
+		0A5B9DCF2CB75F8D0040ED5C /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		0A5B9DD12CB75FDA0040ED5C /* ThreeDSSerivice+initialize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThreeDSSerivice+initialize.swift"; sourceTree = "<group>"; };
+		0A5B9DD32CB760630040ED5C /* ThreeDSService+makeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThreeDSService+makeRequest.swift"; sourceTree = "<group>"; };
+		0A5B9DD52CB760C20040ED5C /* ThreeDSService+startChallenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThreeDSService+startChallenge.swift"; sourceTree = "<group>"; };
+		0A5B9DD72CB760E10040ED5C /* ThreeDSService+createSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThreeDSService+createSession.swift"; sourceTree = "<group>"; };
 		0AD0E50C2CA5F9020075DCFD /* libThreeDS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libThreeDS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AD0E5B12CA61B0A0075DCFD /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		0AD0E5B22CA61B0A0075DCFD /* ThreeDSService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDSService.swift; sourceTree = "<group>"; };
@@ -71,6 +89,14 @@
 			isa = PBXGroup;
 			children = (
 				0AD0E5B22CA61B0A0075DCFD /* ThreeDSService.swift */,
+				0A5B9DD72CB760E10040ED5C /* ThreeDSService+createSession.swift */,
+				0A5B9DD52CB760C20040ED5C /* ThreeDSService+startChallenge.swift */,
+				0A5B9DD32CB760630040ED5C /* ThreeDSService+makeRequest.swift */,
+				0A5B9DD12CB75FDA0040ED5C /* ThreeDSSerivice+initialize.swift */,
+				0A5B9DCF2CB75F8D0040ED5C /* Logger.swift */,
+				0A5B9DCD2CB75F770040ED5C /* ThreeDSServiceBuilder.swift */,
+				0A5B9DCB2CB75EDD0040ED5C /* Utils.swift */,
+				0A5B9DC72CB75C2E0040ED5C /* ChallengeHandler.swift */,
 			);
 			path = ThreeDS;
 			sourceTree = "<group>";
@@ -123,6 +149,7 @@
 				TargetAttributes = {
 					0AD0E50B2CA5F9020075DCFD = {
 						CreatedOnToolsVersion = 16.0;
+						LastSwiftMigration = 1600;
 					};
 				};
 			};
@@ -159,6 +186,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A5B9DCE2CB75F770040ED5C /* ThreeDSServiceBuilder.swift in Sources */,
+				0A5B9DD02CB75F8D0040ED5C /* Logger.swift in Sources */,
+				0A5B9DD22CB75FDA0040ED5C /* ThreeDSSerivice+initialize.swift in Sources */,
+				0A5B9DCC2CB75EDD0040ED5C /* Utils.swift in Sources */,
+				0A5B9DC82CB75EAE0040ED5C /* ThreeDSService.swift in Sources */,
+				0A5B9DD82CB760E10040ED5C /* ThreeDSService+createSession.swift in Sources */,
+				0A5B9DD42CB760630040ED5C /* ThreeDSService+makeRequest.swift in Sources */,
+				0A5B9DC92CB75EAE0040ED5C /* ChallengeHandler.swift in Sources */,
+				0A5B9DD62CB760C20040ED5C /* ThreeDSService+startChallenge.swift in Sources */,
+				0A5B9DCA2CB75EAE0040ED5C /* libThreeDS.a in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,7 +326,7 @@
 		0AD0E5142CA5F9020075DCFD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				OTHER_LDFLAGS = "-ObjC";
@@ -299,6 +336,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -307,7 +345,7 @@
 		0AD0E5152CA5F9020075DCFD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				OTHER_LDFLAGS = "-ObjC";
