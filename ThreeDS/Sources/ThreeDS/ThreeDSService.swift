@@ -32,8 +32,8 @@ public class ThreeDSService {
         self.apiBaseUrl = apiBaseUrl
         self.authenticationEndpoint = authenticationEndpoint
 
-        service = ThreeDS2SDK()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        self.service = ThreeDS2SDK()
+        self.decoder.keyDecodingStrategy = .convertFromSnakeCase
     }
 
     public static func builder() -> ThreeDSServiceBuilder {
