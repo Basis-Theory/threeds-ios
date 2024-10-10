@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0AD0E5B02CA6004B0075DCFD /* ThreeDS in Frameworks */ = {isa = PBXBuildFile; productRef = 0AD0E5AF2CA6004B0075DCFD /* ThreeDS */; };
+		0A5B9E232CB7707C0040ED5C /* ThreeDS in Frameworks */ = {isa = PBXBuildFile; productRef = 0A5B9E222CB7707C0040ED5C /* ThreeDS */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,7 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0AD0E5B02CA6004B0075DCFD /* ThreeDS in Frameworks */,
+				0A5B9E232CB7707C0040ED5C /* ThreeDS in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,6 +131,7 @@
 			name = ThreeDSTester;
 			packageProductDependencies = (
 				0AD0E5AF2CA6004B0075DCFD /* ThreeDS */,
+				0A5B9E222CB7707C0040ED5C /* ThreeDS */,
 			);
 			productName = ThreeDSTester;
 			productReference = 0AD0E55C2CA5F9930075DCFD /* ThreeDSTester.app */;
@@ -215,7 +216,7 @@
 			mainGroup = 0AD0E5532CA5F9930075DCFD;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				0AD0E5AE2CA6004B0075DCFD /* XCLocalSwiftPackageReference "../ThreeDS" */,
+				0A5B9E212CB7707C0040ED5C /* XCLocalSwiftPackageReference "../ThreeDS" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 0AD0E55D2CA5F9930075DCFD /* Products */;
@@ -582,13 +583,17 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		0AD0E5AE2CA6004B0075DCFD /* XCLocalSwiftPackageReference "../ThreeDS" */ = {
+		0A5B9E212CB7707C0040ED5C /* XCLocalSwiftPackageReference "../ThreeDS" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../ThreeDS;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0A5B9E222CB7707C0040ED5C /* ThreeDS */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ThreeDS;
+		};
 		0AD0E5AF2CA6004B0075DCFD /* ThreeDS */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ThreeDS;

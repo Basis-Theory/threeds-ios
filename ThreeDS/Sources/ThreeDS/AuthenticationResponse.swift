@@ -28,7 +28,7 @@ struct AuthenticationResponse: Codable {
     let acsRenderingType: AcsRenderingType?
 }
 
-internal struct AcsRenderingType: Codable {
+struct AcsRenderingType: Codable {
     let acsInterface: String
     let acsUiTemplate: String
 }
