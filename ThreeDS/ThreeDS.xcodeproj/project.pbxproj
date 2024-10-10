@@ -18,6 +18,11 @@
 		0A5B9DD42CB760630040ED5C /* ThreeDSService+makeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DD32CB760630040ED5C /* ThreeDSService+makeRequest.swift */; };
 		0A5B9DD62CB760C20040ED5C /* ThreeDSService+startChallenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DD52CB760C20040ED5C /* ThreeDSService+startChallenge.swift */; };
 		0A5B9DD82CB760E10040ED5C /* ThreeDSService+createSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DD72CB760E10040ED5C /* ThreeDSService+createSession.swift */; };
+		0A5B9DF02CB766700040ED5C /* CreateThreeDsSessionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DEF2CB766700040ED5C /* CreateThreeDsSessionResponse.swift */; };
+		0A5B9DF22CB7669D0040ED5C /* AuthenticationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DF12CB7669D0040ED5C /* AuthenticationResponse.swift */; };
+		0A5B9DF42CB766AD0040ED5C /* ChallengeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DF32CB766AD0040ED5C /* ChallengeResponse.swift */; };
+		0A5B9DF62CB766BB0040ED5C /* ThreeDSServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DF52CB766BB0040ED5C /* ThreeDSServiceError.swift */; };
+		0A5B9DF82CB766D10040ED5C /* UpdateThreeDsSessionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DF72CB766D10040ED5C /* UpdateThreeDsSessionRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,6 +46,11 @@
 		0A5B9DD32CB760630040ED5C /* ThreeDSService+makeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThreeDSService+makeRequest.swift"; sourceTree = "<group>"; };
 		0A5B9DD52CB760C20040ED5C /* ThreeDSService+startChallenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThreeDSService+startChallenge.swift"; sourceTree = "<group>"; };
 		0A5B9DD72CB760E10040ED5C /* ThreeDSService+createSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThreeDSService+createSession.swift"; sourceTree = "<group>"; };
+		0A5B9DEF2CB766700040ED5C /* CreateThreeDsSessionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateThreeDsSessionResponse.swift; sourceTree = "<group>"; };
+		0A5B9DF12CB7669D0040ED5C /* AuthenticationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationResponse.swift; sourceTree = "<group>"; };
+		0A5B9DF32CB766AD0040ED5C /* ChallengeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeResponse.swift; sourceTree = "<group>"; };
+		0A5B9DF52CB766BB0040ED5C /* ThreeDSServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDSServiceError.swift; sourceTree = "<group>"; };
+		0A5B9DF72CB766D10040ED5C /* UpdateThreeDsSessionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateThreeDsSessionRequest.swift; sourceTree = "<group>"; };
 		0AD0E50C2CA5F9020075DCFD /* libThreeDS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libThreeDS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AD0E5B12CA61B0A0075DCFD /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		0AD0E5B22CA61B0A0075DCFD /* ThreeDSService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDSService.swift; sourceTree = "<group>"; };
@@ -96,6 +106,11 @@
 				0A5B9DCF2CB75F8D0040ED5C /* Logger.swift */,
 				0A5B9DCD2CB75F770040ED5C /* ThreeDSServiceBuilder.swift */,
 				0A5B9DCB2CB75EDD0040ED5C /* Utils.swift */,
+				0A5B9DF72CB766D10040ED5C /* UpdateThreeDsSessionRequest.swift */,
+				0A5B9DF52CB766BB0040ED5C /* ThreeDSServiceError.swift */,
+				0A5B9DF32CB766AD0040ED5C /* ChallengeResponse.swift */,
+				0A5B9DF12CB7669D0040ED5C /* AuthenticationResponse.swift */,
+				0A5B9DEF2CB766700040ED5C /* CreateThreeDsSessionResponse.swift */,
 				0A5B9DC72CB75C2E0040ED5C /* ChallengeHandler.swift */,
 			);
 			path = ThreeDS;
@@ -187,14 +202,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A5B9DCE2CB75F770040ED5C /* ThreeDSServiceBuilder.swift in Sources */,
+				0A5B9DF42CB766AD0040ED5C /* ChallengeResponse.swift in Sources */,
 				0A5B9DD02CB75F8D0040ED5C /* Logger.swift in Sources */,
+				0A5B9DF02CB766700040ED5C /* CreateThreeDsSessionResponse.swift in Sources */,
 				0A5B9DD22CB75FDA0040ED5C /* ThreeDSSerivice+initialize.swift in Sources */,
 				0A5B9DCC2CB75EDD0040ED5C /* Utils.swift in Sources */,
 				0A5B9DC82CB75EAE0040ED5C /* ThreeDSService.swift in Sources */,
 				0A5B9DD82CB760E10040ED5C /* ThreeDSService+createSession.swift in Sources */,
 				0A5B9DD42CB760630040ED5C /* ThreeDSService+makeRequest.swift in Sources */,
 				0A5B9DC92CB75EAE0040ED5C /* ChallengeHandler.swift in Sources */,
+				0A5B9DF82CB766D10040ED5C /* UpdateThreeDsSessionRequest.swift in Sources */,
+				0A5B9DF62CB766BB0040ED5C /* ThreeDSServiceError.swift in Sources */,
 				0A5B9DD62CB760C20040ED5C /* ThreeDSService+startChallenge.swift in Sources */,
+				0A5B9DF22CB7669D0040ED5C /* AuthenticationResponse.swift in Sources */,
 				0A5B9DCA2CB75EAE0040ED5C /* libThreeDS.a in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
