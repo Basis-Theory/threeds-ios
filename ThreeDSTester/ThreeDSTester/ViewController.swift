@@ -20,11 +20,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @objc func createThreeDsSession() {
         Task {
             do {
-                let session = try await threeDSService.createSession(
+                let session = try await self.threeDSService.createSession(
                     tokenId: textFieldContent)
-
+                sessionId = session.id
                 showToast(message: "3DS Session created")
-
             } catch {
                 print("\(error) -> \(error.localizedDescription)")
             }
@@ -38,15 +37,61 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     throw ThreeDSError.missingSessionId
                 }
 
-                try await threeDSService.startChallenge(
+                try await self.threeDSService.startChallenge(
                     sessionId: sessionId, viewController: self,
                     onCompleted: { result in
-                        print("completed \(result)")
+                        self.showToast(message: "Challenge \(result.status)")
+                        
+                        guard let details = result.details else {
+                            return
+                        }
+                        
+                        self.showToast(message: "\(details)")
                     },
-                    onFailure: { result in
-                        print("failed \(result)")
+                    onFailure: { result in self.showToast(message: "Challenge \(result.status)")
                     })
             } catch {
+                print("\(error) -> \(error.localizedDescription)")
+            }
+        }
+    }
+
+    @objc func clearState() {
+        sessionId = nil
+
+        for view in self.view.subviews {
+            if let textField = view as? UITextField {
+                textField.text = ""
+            }
+        }
+    }
+
+    @objc func getChallengeResult() {
+        Task {
+            do {
+                let endpoint = URL(string: "http://localhost:3333/3ds/get-result")!
+
+                let jsonBody: [String: String] = [
+                    "sessionId": sessionId!
+                ]
+
+                let requestBody = try JSONSerialization.data(withJSONObject: jsonBody, options: [])
+
+                var request = URLRequest(url: endpoint)
+                request.httpMethod = "POST"
+                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                request.httpBody = requestBody
+
+                let (data, _) = try await URLSession.shared.data(for: request)
+
+                let decodedResponse = try JSONDecoder().decode(ChallengeResult.self, from: data)
+
+                print(decodedResponse.authenticationStatus)
+
+                self.showToast(message: "\(decodedResponse.authenticationStatus)")
+
+            } catch {
+
                 print("\(error) -> \(error.localizedDescription)")
             }
         }
@@ -92,11 +137,47 @@ class ViewController: UIViewController, UITextFieldDelegate {
         button.addTarget(self, action: #selector(startChallenge), for: .touchUpInside)
     }
 
-    var textFieldContent: String = "" {
-        didSet {
-            print("TextField content: \(textFieldContent)")
-        }
+    func getChallengeResultButton() {
+        let button = UIButton(type: .system)
+        button.setTitle("Get Challenge Result", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .systemBlue
+        button.layer.cornerRadius = 10
+
+        self.view.addSubview(button)
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            button.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 100),
+            button.widthAnchor.constraint(equalToConstant: 200),
+            button.heightAnchor.constraint(equalToConstant: 44),
+        ])
+
+        button.addTarget(self, action: #selector(getChallengeResult), for: .touchUpInside)
     }
+
+    func clearButton() {
+        let button = UIButton(type: .system)
+        button.setTitle("Clear", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .systemBlue
+        button.layer.cornerRadius = 10
+
+        self.view.addSubview(button)
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            button.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 150),
+            button.widthAnchor.constraint(equalToConstant: 200),
+            button.heightAnchor.constraint(equalToConstant: 44),
+        ])
+
+        button.addTarget(self, action: #selector(clearState), for: .touchUpInside)
+    }
+
+    var textFieldContent: String = ""
 
     func tokenIdInputField() {
         let textField: UITextField = {
@@ -117,15 +198,21 @@ class ViewController: UIViewController, UITextFieldDelegate {
             textField.widthAnchor.constraint(equalToConstant: 200),
             textField.heightAnchor.constraint(equalToConstant: 40),
         ])
+
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
 
         do {
+            guard let apiKey = Configuration.getConfiguration().btPubApiKey else {
+                throw "Could not find API Key"
+            }
+            
             threeDSService = try ThreeDSService.builder()
                 .withSandbox()
-                .withApiKey("key_dev_prod_us_pub_JU4qttr2YJxLJqg64S4Tf5")
+                .withApiKey(apiKey)
                 .withBaseUrl("api.flock-dev.com")
                 .withAuthenticationEndpoint("http://localhost:3333/3ds/authenticate")
                 .build()
@@ -144,11 +231,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 }
             }
 
-            tokenIdInputField()
+            let textfield = tokenIdInputField()
 
             createSessionButton()
 
             startChallengeButton()
+
+            clearButton()
+
+            getChallengeResultButton()
 
         } catch {
             // error handling
@@ -167,41 +258,39 @@ class ViewController: UIViewController, UITextFieldDelegate {
         return true
     }
 
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        textFieldContent = textField.text ?? ""
-    }
-
 }
 
 extension UIViewController {
 
     func showToast(message: String, font: UIFont = .systemFont(ofSize: 16.0)) {
-        let toastLabel = UILabel()
-        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-        toastLabel.textColor = UIColor.white
-        toastLabel.textAlignment = .center
-        toastLabel.font = font
-        toastLabel.text = message
-        toastLabel.alpha = 1.0
-        toastLabel.layer.cornerRadius = 10
-        toastLabel.clipsToBounds = true
-        toastLabel.numberOfLines = 0  // Allow for multi-line
-        toastLabel.lineBreakMode = .byWordWrapping
+        DispatchQueue.main.async {
+            let toastLabel = UILabel()
+            toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+            toastLabel.textColor = UIColor.white
+            toastLabel.textAlignment = .center
+            toastLabel.font = font
+            toastLabel.text = message
+            toastLabel.alpha = 1.0
+            toastLabel.layer.cornerRadius = 10
+            toastLabel.clipsToBounds = true
+            toastLabel.numberOfLines = 0
+            toastLabel.lineBreakMode = .byWordWrapping
 
-        let maxWidth = self.view.frame.size.width - 40
-        let constrainedSize = CGSize(width: maxWidth, height: CGFloat.greatestFiniteMagnitude)
-        let expectedSize = toastLabel.sizeThatFits(constrainedSize)
+            let maxWidth = self.view.frame.size.width - 40
+            let constrainedSize = CGSize(width: maxWidth, height: CGFloat.greatestFiniteMagnitude)
+            let expectedSize = toastLabel.sizeThatFits(constrainedSize)
 
-        toastLabel.frame = CGRect(
-            x: self.view.frame.size.width / 2 - expectedSize.width / 2,
-            y: self.view.frame.size.height - 100,
-            width: expectedSize.width + 20,
-            height: expectedSize.height + 20)
+            toastLabel.frame = CGRect(
+                x: self.view.frame.size.width / 2 - expectedSize.width / 2,
+                y: self.view.frame.size.height - 100,
+                width: expectedSize.width + 20,
+                height: expectedSize.height + 20)
 
-        self.view.addSubview(toastLabel)
+            self.view.addSubview(toastLabel)
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            toastLabel.removeFromSuperview()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                toastLabel.removeFromSuperview()
+            }
         }
     }
 }
@@ -213,4 +302,32 @@ enum OSLogger {
     static func log(_ text: String, type: OSLogType = .default) {
         os_log("%@", log: OSLogger.sdk, type: type, text)
     }
+}
+
+struct ChallengeResult: Encodable, Decodable {
+    let panTokenId: String
+    let threedsVersion: String
+    let acsTransactionId: String
+    let dsTransactionId: String
+    let sdkTransactionId: String
+    let acsReferenceNumber: String
+    let dsReferenceNumber: String
+    let authenticationValue: String
+    let authenticationStatus: String
+    let authenticationStatusCode: String
+    let eci: String
+    let purchaseAmount: String?
+    let merchantName: String?
+    let currency: String?
+    let acsChallengeMandated: String?
+    let authenticationChallengeType: String?
+    let authenticationStatusReason: String?
+    let acsSignedContent: String?
+    let messageExtensions: [String]
+    let acsRenderingType: AcsRenderingType?
+}
+
+struct AcsRenderingType: Codable {
+    let acsInterface: String
+    let acsUiTemplate: String
 }

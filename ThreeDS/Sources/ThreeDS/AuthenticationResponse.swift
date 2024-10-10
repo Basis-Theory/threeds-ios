@@ -16,15 +16,15 @@ struct AuthenticationResponse: Codable {
     let authenticationValue: String?
     let authenticationStatus: String
     let authenticationStatusCode: String
-    let eci: String
+    let eci: String?
     let purchaseAmount: String
     let merchantName: String
     let currency: String?
     let acsChallengeMandated: String?
     let authenticationChallengeType: String?
     let authenticationStatusReason: String?
-    let acsSignedContent: String
-    let messageExtensions: [String]
+    let acsSignedContent: String?
+    let messageExtensions: [String]?
     let acsRenderingType: AcsRenderingType?
 }
 

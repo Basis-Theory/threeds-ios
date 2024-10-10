@@ -22,7 +22,7 @@ extension ThreeDSService {
 
         let updatedSession = try await _updateSession(
             authRequestParams: authRequestParams, sessionId: session.id)
-
+        
         return updatedSession
     }
 
@@ -81,6 +81,7 @@ extension ThreeDSService {
         else {
             throw ThreeDSServiceError.invalidURL
         }
+          
 
         return try await makeRequest(
             url: updateSessionEndpoint,
@@ -88,5 +89,6 @@ extension ThreeDSService {
             body: payload,
             expectedStatusCodes: [200]
         )
+        
     }
 }

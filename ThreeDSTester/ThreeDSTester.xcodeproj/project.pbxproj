@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A5B9E232CB7707C0040ED5C /* ThreeDS in Frameworks */ = {isa = PBXBuildFile; productRef = 0A5B9E222CB7707C0040ED5C /* ThreeDS */; };
+		0AEE03EF2CB89E9F00EC1DFC /* ThreeDS in Frameworks */ = {isa = PBXBuildFile; productRef = 0AD0E5AF2CA6004B0075DCFD /* ThreeDS */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AEE03EF2CB89E9F00EC1DFC /* ThreeDS in Frameworks */,
 				0A5B9E232CB7707C0040ED5C /* ThreeDS in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

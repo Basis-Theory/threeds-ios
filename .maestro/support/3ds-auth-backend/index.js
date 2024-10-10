@@ -3,7 +3,7 @@ var cors = require("cors");
 var bodyParser = require("body-parser");
 const { BasisTheory } = require("@basis-theory/basis-theory-js");
 
-require('dotenv').config()
+require("dotenv").config();
 
 var app = express();
 
@@ -50,7 +50,6 @@ app.post("/3ds/authenticate", async (req, res) => {
       },
     });
 
-
     res.status(200).send({
       ...response,
       // include these to increase sucess rate during challenge evaluation
@@ -62,7 +61,6 @@ app.post("/3ds/authenticate", async (req, res) => {
     res.status(e.status).send(e.data);
   }
 });
-
 
 app.post("/3ds/get-result", async (req, res) => {
   try {

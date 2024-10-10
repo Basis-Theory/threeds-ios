@@ -40,10 +40,21 @@ jobs:
       - run: npx envinfo
       
       - name: Testing with ThreeDSTester app
-        run: exec .github/scripts/integration-test.sh
+        run: make integration-test
         env:
-          DEV_BT_API_KEY: ${{ secrets.DEV_BT_API_KEY }}
-          DEV_PRIVATE_BT_API_KEY: ${{ secrets.DEV_PRIVATE_BT_API_KEY }}
+          BT_API_KEY_PUB: ${{ secrets.BT_API_KEY_PUB }}
+          BT_API_KEY_PVT: ${{ secrets.BT_API_KEY_PVT }}
+
+      - name: Generate Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: E2E Report (31, x86_64, default)
+          path: |
+            ${{ github.workspace }}/report*.xml
+            ~/.maestro/results /**/*
+            ~/Library/Logs/DiagnosticReports/*
+
 
   dependency-check-test:
     name: Dependency Check Test

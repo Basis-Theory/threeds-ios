@@ -29,7 +29,7 @@ extension ThreeDSService {
         }
 
         let decodedResponse = try self.decoder.decode(T.self, from: data)
-
+        
         return decodedResponse
     }
 }

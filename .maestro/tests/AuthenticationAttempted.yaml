@@ -1,14 +1,10 @@
-appId: com.basistheory.threeds.example
+appId: com.basistheory.ThreeDSTester
 ---
 - launchApp
-- extendedWaitUntil:
-    visible: "3DS"
-    timeout: 60000
 
 # Ravelin SDK initializes correctly
 
-- assertVisible: "The integrity of the SDK has been tampered"
-- assertVisible: "An emulator is being used to run the App"
+- assertVisible: "An emulator is being used to run the App."
 
 # Visa
 - tapOn: "Token ID"

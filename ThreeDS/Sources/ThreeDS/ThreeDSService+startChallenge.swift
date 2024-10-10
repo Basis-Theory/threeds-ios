@@ -14,29 +14,43 @@ extension ThreeDSService {
         onCompleted: @escaping (ChallengeResponse) -> Void,
         onFailure: @escaping (ChallengeResponse) -> Void
     ) async throws {
-        var authenticationResponse = try await authenticateSession(sessionId: sessionId)
+        let authenticationResponse = try await authenticateSession(sessionId: sessionId)
 
-        if authenticationResponse.authenticationStatus == "challenge" {
-            var challengeParams = ChallengeParameters()
-            challengeParams.set3DSServerTransactionID(sessionId)
-            challengeParams.setAcsTransactionID(authenticationResponse.acsTransactionId)
-            challengeParams.setAcsRefNumber(authenticationResponse.acsReferenceNumber)
-            challengeParams.setAcsSignedContent(authenticationResponse.acsSignedContent)
-            challengeParams.setThreeDSRequestorAppURL(
-                "https://www.ravelin.com/?transID=\(try self.transaction.getAuthenticationRequestParameters().getSDKTransactionID())"
-            )
+        do {
+            if authenticationResponse.authenticationStatus == "challenge" {
+                let challengeParams = ChallengeParameters()
+                challengeParams.set3DSServerTransactionID(sessionId)
+                challengeParams.setAcsTransactionID(authenticationResponse.acsTransactionId)
+                challengeParams.setAcsRefNumber(authenticationResponse.acsReferenceNumber)
+                challengeParams.setAcsSignedContent(authenticationResponse.acsSignedContent ?? "")
+                challengeParams.setThreeDSRequestorAppURL(
+                    "https://www.ravelin.com/?transID=\(try self.transaction.getAuthenticationRequestParameters().getSDKTransactionID())"
+                )
 
-            challengeReceiver = ChallengeHandler(
-                sessionId: sessionId, authenticationResponse: authenticationResponse,
-                onCompleted: onCompleted, onFailure: onFailure, transaction: transaction)
+                challengeReceiver = ChallengeHandler(
+                    sessionId: sessionId, authenticationResponse: authenticationResponse,
+                    onCompleted: onCompleted, onFailure: onFailure, transaction: transaction)
 
-            try self.transaction.doChallenge(
-                challengeParameters: challengeParams,
-                challengeStatusReceiver: challengeReceiver,
-                timeOut: 5,
-                challengeView: ChallengeViewImplementation(viewController: viewController))
+                try self.transaction.doChallenge(
+                    challengeParameters: challengeParams,
+                    challengeStatusReceiver: challengeReceiver,
+                    timeOut: 5,
+                    challengeView: ChallengeViewImplementation(viewController: viewController))
+            } else {
+                onCompleted(
+                    ChallengeResponse(
+                        id: sessionId,
+                        status: authenticationResponse.authenticationStatus,  // Added missing comma
+                        details: authenticationResponse.authenticationStatusReason
+                    ))
+            }
+        } catch {
+            onFailure(
+                ChallengeResponse(
+                    id: sessionId,
+                    status: authenticationResponse.authenticationStatus,  // Added missing comma
+                    details: error.localizedDescription))
         }
-
     }
 
     func authenticateSession(sessionId: String) async throws -> AuthenticationResponse {
