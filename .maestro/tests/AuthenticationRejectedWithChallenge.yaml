@@ -29,7 +29,7 @@ appId: com.basistheory.ThreeDSTester
 - tapOn:
     text: "Get Challenge Result"
     retryTapIfNoChange: false
-- hideKeyboard
+
 - assertVisible: "rejected"
 - assertVisible: "suspected-fraud"
 - tapOn: "Clear"
@@ -56,7 +56,7 @@ appId: com.basistheory.ThreeDSTester
 - tapOn:
     text: "Get Challenge Result"
     retryTapIfNoChange: false
-- hideKeyboard
+
 - assertVisible: "rejected"
 - assertVisible: "suspected-fraud"
 - tapOn: "Clear"

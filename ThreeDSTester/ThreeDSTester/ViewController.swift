@@ -25,7 +25,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 sessionId = session.id
                 showToast(message: "3DS Session created")
             } catch {
-                print("\(error) -> \(error.localizedDescription)")
+                showToast(message: error.localizedDescription)
             }
         }
     }
@@ -51,7 +51,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     onFailure: { result in self.showToast(message: "Challenge \(result.status)")
                     })
             } catch {
-                print("\(error) -> \(error.localizedDescription)")
+                showToast(message: error.localizedDescription)
             }
         }
     }
@@ -83,12 +83,19 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 request.httpBody = requestBody
 
                 let (data, _) = try await URLSession.shared.data(for: request)
+                
+                OSLogger.log("\(data)")
 
                 let decodedResponse = try JSONDecoder().decode(ChallengeResult.self, from: data)
 
-                print(decodedResponse.authenticationStatus)
-
                 self.showToast(message: "\(decodedResponse.authenticationStatus)")
+               
+                guard let reason = decodedResponse.authenticationStatusReason else {
+                    OSLogger.log("No authentication reason")
+                    return
+                }
+                
+                self.showToast(message: reason)
 
             } catch {
 
@@ -262,6 +269,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
 extension UIViewController {
 
+    private struct ToastConfig {
+        static var activeToasts = [UILabel]()
+    }
+
     func showToast(message: String, font: UIFont = .systemFont(ofSize: 16.0)) {
         DispatchQueue.main.async {
             let toastLabel = UILabel()
@@ -280,16 +291,42 @@ extension UIViewController {
             let constrainedSize = CGSize(width: maxWidth, height: CGFloat.greatestFiniteMagnitude)
             let expectedSize = toastLabel.sizeThatFits(constrainedSize)
 
+            // determines y-position for the new toast, takes into account previous toasts
+            let bottomPadding: CGFloat = 100
+            let verticalSpacing: CGFloat = 10
+            let lastToastYPosition = ToastConfig.activeToasts.last?.frame.origin.y ?? self.view.frame.size.height
+            let newToastYPosition = min(lastToastYPosition - expectedSize.height - verticalSpacing, self.view.frame.size.height - bottomPadding)
+
             toastLabel.frame = CGRect(
                 x: self.view.frame.size.width / 2 - expectedSize.width / 2,
-                y: self.view.frame.size.height - 100,
+                y: newToastYPosition,
                 width: expectedSize.width + 20,
                 height: expectedSize.height + 20)
 
             self.view.addSubview(toastLabel)
+            ToastConfig.activeToasts.append(toastLabel)
 
+            // removes toasts after 1 second and adjust remiaining toasts
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                if let index = ToastConfig.activeToasts.firstIndex(of: toastLabel) {
+                    ToastConfig.activeToasts.remove(at: index)
+                }
                 toastLabel.removeFromSuperview()
+
+                self.repositionToasts()
+            }
+        }
+    }
+
+    private func repositionToasts() {
+        DispatchQueue.main.async {
+            var currentYPosition = self.view.frame.size.height - 100
+            let verticalSpacing: CGFloat = 10
+
+            for toast in ToastConfig.activeToasts.reversed() {
+                let expectedSize = toast.sizeThatFits(CGSize(width: toast.frame.width - 20, height: CGFloat.greatestFiniteMagnitude))
+                currentYPosition -= (expectedSize.height + 20 + verticalSpacing)
+                toast.frame.origin.y = currentYPosition
             }
         }
     }
@@ -312,7 +349,7 @@ struct ChallengeResult: Encodable, Decodable {
     let sdkTransactionId: String
     let acsReferenceNumber: String
     let dsReferenceNumber: String
-    let authenticationValue: String
+    let authenticationValue: String?
     let authenticationStatus: String
     let authenticationStatusCode: String
     let eci: String

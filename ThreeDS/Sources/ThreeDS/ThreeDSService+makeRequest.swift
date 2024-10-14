@@ -21,11 +21,11 @@ extension ThreeDSService {
         request.httpBody = body
 
         let (data, response) = try await URLSession.shared.data(for: request)
-
+        
         guard let httpResponse = response as? HTTPURLResponse,
             expectedStatusCodes.contains(httpResponse.statusCode)
         else {
-            throw ThreeDSServiceError.invalidResponse
+            throw ThreeDSServiceError.invalidResponse((response as? HTTPURLResponse)!.statusCode)
         }
 
         let decodedResponse = try self.decoder.decode(T.self, from: data)

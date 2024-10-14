@@ -12,18 +12,27 @@ extension ThreeDSService {
     public func createSession(
         tokenId: String
     ) async throws -> CreateThreeDsSessionResponse {
-        let session = try await _createSession(tokenId: tokenId)
+        do {
+                let session = try await _createSession(tokenId: tokenId)
 
-        self.transaction = try service.createTransaction(
-            directoryServerID: session.directoryServerId,
-            messageVersion: session.recommendedVersion)
+                self.transaction = try service.createTransaction(
+                    directoryServerID: session.directoryServerId,
+                    messageVersion: session.recommendedVersion)
 
-        let authRequestParams = try self.transaction.getAuthenticationRequestParameters()
+                let authRequestParams = try self.transaction.getAuthenticationRequestParameters()
 
-        let updatedSession = try await _updateSession(
-            authRequestParams: authRequestParams, sessionId: session.id)
-        
-        return updatedSession
+                let updatedSession = try await _updateSession(
+                    authRequestParams: authRequestParams, sessionId: session.id)
+                
+                return updatedSession
+        } catch let error as ThreeDSServiceError {
+            if case let .invalidResponse = error {
+                throw ThreeDSServiceError.sessionCreationError(error.localizedDescription)
+            }
+            Logger.log("Unknown error: \(error)")
+            throw error
+        }
+
     }
 
     func _createSession(

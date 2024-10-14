@@ -25,7 +25,7 @@ appId: com.basistheory.ThreeDSTester
       below: "Enter your code below"
 - inputText: "1234"
 - tapOn: "Submit"
-- hideKeyboard
+
 - assertVisible: "Challenge failed"
 - tapOn:
     text: "Get Challenge Result"
@@ -52,7 +52,7 @@ appId: com.basistheory.ThreeDSTester
       below: "Enter your code below"
 - inputText: "1234"
 - tapOn: "Submit"
-- hideKeyboard
+
 - assertVisible: "Challenge failed"
 - tapOn:
     text: "Get Challenge Result"
