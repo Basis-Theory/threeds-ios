@@ -23,9 +23,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 let session = try await self.threeDSService.createSession(
                     tokenId: textFieldContent)
                 sessionId = session.id
-                showToast(message: "3DS Session created")
+                resultLabel.text = "3DS Session created"
             } catch {
-                showToast(message: error.localizedDescription)
+                errorLabel.text = "\(error.localizedDescription)"
             }
         }
     }
@@ -40,18 +40,23 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 try await self.threeDSService.startChallenge(
                     sessionId: sessionId, viewController: self,
                     onCompleted: { result in
-                        self.showToast(message: "Challenge \(result.status)")
-                        
+                        DispatchQueue.main.async {
+                            self.resultLabel.text = "Challenge \(result.status)"
+                        }
                         guard let details = result.details else {
                             return
                         }
-                        
-                        self.showToast(message: "\(details)")
+                        DispatchQueue.main.async {
+                            self.detailsLabel.text = "\(details)"
+                        }
                     },
-                    onFailure: { result in self.showToast(message: "Challenge \(result.status)")
+                    onFailure: { result in
+                        DispatchQueue.main.async {
+                            self.resultLabel.text = "Challenge \(result.status)"
+                        }
                     })
             } catch {
-                showToast(message: error.localizedDescription)
+                errorLabel.text = error.localizedDescription
             }
         }
     }
@@ -64,6 +69,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 textField.text = ""
             }
         }
+        
+        resultLabel.text = ""
+        detailsLabel.text = ""
+        errorLabel.text = ""
+        
     }
 
     @objc func getChallengeResult() {
@@ -83,23 +93,22 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 request.httpBody = requestBody
 
                 let (data, _) = try await URLSession.shared.data(for: request)
-                
+
                 OSLogger.log("\(data)")
 
                 let decodedResponse = try JSONDecoder().decode(ChallengeResult.self, from: data)
 
-                self.showToast(message: "\(decodedResponse.authenticationStatus)")
-               
+                resultLabel.text = "\(decodedResponse.authenticationStatus)"
+
                 guard let reason = decodedResponse.authenticationStatusReason else {
                     OSLogger.log("No authentication reason")
                     return
                 }
-                
-                self.showToast(message: reason)
+
+                detailsLabel.text = reason
 
             } catch {
-
-                print("\(error) -> \(error.localizedDescription)")
+                errorLabel.text = error.localizedDescription
             }
         }
     }
@@ -189,6 +198,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func tokenIdInputField() {
         let textField: UITextField = {
             let tf = UITextField()
+            tf.inputView = UIView()
             tf.borderStyle = .roundedRect
             tf.placeholder = "Token ID"
             tf.translatesAutoresizingMaskIntoConstraints = false
@@ -201,22 +211,101 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         NSLayoutConstraint.activate([
             textField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            textField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -300),
+            textField.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -250),
             textField.widthAnchor.constraint(equalToConstant: 200),
             textField.heightAnchor.constraint(equalToConstant: 40),
         ])
 
     }
 
+    let heading: UILabel = {
+        let label = UILabel()
+        label.text = "3DS"
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false  // Enable Auto Layout
+        return label
+    }()
+
+    let resultLabel: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false  // Enable Auto Layout
+        return label
+    }()
+
+    let detailsLabel: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false  // Enable Auto Layout
+        return label
+    }()
+
+    let errorLabel: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.textColor = .red
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false  // Enable Auto Layout
+        return label
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        self.view.addSubview(heading)
+        self.view.addSubview(resultLabel)
+        self.view.addSubview(detailsLabel)
+        self.view.addSubview(errorLabel)
+
+        NSLayoutConstraint.activate([
+            heading.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            heading.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -300),
+        ])
+
+        NSLayoutConstraint.activate([
+            resultLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            resultLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 300),
+            resultLabel.widthAnchor.constraint(equalToConstant: 250),
+            resultLabel.heightAnchor.constraint(equalToConstant: 50),
+        ])
+
+        NSLayoutConstraint.activate([
+            detailsLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            detailsLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 350),
+            detailsLabel.widthAnchor.constraint(equalToConstant: 250),
+            detailsLabel.heightAnchor.constraint(equalToConstant: 50),
+        ])
+        NSLayoutConstraint.activate([
+            errorLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            errorLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 400),
+            errorLabel.widthAnchor.constraint(equalToConstant: 250),
+            errorLabel.heightAnchor.constraint(equalToConstant: 50),
+        ])
 
         do {
+            tokenIdInputField()
+
+            createSessionButton()
+
+            startChallengeButton()
+
+            clearButton()
+
+            getChallengeResultButton()
+
             guard let apiKey = Configuration.getConfiguration().btPubApiKey else {
-                throw "Could not find API Key"
+                throw ConfigurationInitializationError.keyNotFound
             }
-            
+
             threeDSService = try ThreeDSService.builder()
                 .withSandbox()
                 .withApiKey(apiKey)
@@ -230,26 +319,17 @@ class ViewController: UIViewController, UITextFieldDelegate {
                         if let warnings = warnings, !warnings.isEmpty {
                             let messages = warnings.map { $0.message }.joined(separator: "\n")
 
-                            self?.showToast(message: messages)
+                            self?.resultLabel.text = messages
                         } else {
-                            self?.showToast(message: "No warnings.")
+                            self?.resultLabel.text = "No warnings."
                         }
                     }
                 }
             }
 
-            let textfield = tokenIdInputField()
-
-            createSessionButton()
-
-            startChallengeButton()
-
-            clearButton()
-
-            getChallengeResultButton()
-
         } catch {
-            // error handling
+            errorLabel.text = "\(error)"
+            OSLogger.log("\(error)")
         }
 
     }
@@ -265,71 +345,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
         return true
     }
 
-}
-
-extension UIViewController {
-
-    private struct ToastConfig {
-        static var activeToasts = [UILabel]()
-    }
-
-    func showToast(message: String, font: UIFont = .systemFont(ofSize: 16.0)) {
-        DispatchQueue.main.async {
-            let toastLabel = UILabel()
-            toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-            toastLabel.textColor = UIColor.white
-            toastLabel.textAlignment = .center
-            toastLabel.font = font
-            toastLabel.text = message
-            toastLabel.alpha = 1.0
-            toastLabel.layer.cornerRadius = 10
-            toastLabel.clipsToBounds = true
-            toastLabel.numberOfLines = 0
-            toastLabel.lineBreakMode = .byWordWrapping
-
-            let maxWidth = self.view.frame.size.width - 40
-            let constrainedSize = CGSize(width: maxWidth, height: CGFloat.greatestFiniteMagnitude)
-            let expectedSize = toastLabel.sizeThatFits(constrainedSize)
-
-            // determines y-position for the new toast, takes into account previous toasts
-            let bottomPadding: CGFloat = 100
-            let verticalSpacing: CGFloat = 10
-            let lastToastYPosition = ToastConfig.activeToasts.last?.frame.origin.y ?? self.view.frame.size.height
-            let newToastYPosition = min(lastToastYPosition - expectedSize.height - verticalSpacing, self.view.frame.size.height - bottomPadding)
-
-            toastLabel.frame = CGRect(
-                x: self.view.frame.size.width / 2 - expectedSize.width / 2,
-                y: newToastYPosition,
-                width: expectedSize.width + 20,
-                height: expectedSize.height + 20)
-
-            self.view.addSubview(toastLabel)
-            ToastConfig.activeToasts.append(toastLabel)
-
-            // removes toasts after 1 second and adjust remiaining toasts
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                if let index = ToastConfig.activeToasts.firstIndex(of: toastLabel) {
-                    ToastConfig.activeToasts.remove(at: index)
-                }
-                toastLabel.removeFromSuperview()
-
-                self.repositionToasts()
-            }
-        }
-    }
-
-    private func repositionToasts() {
-        DispatchQueue.main.async {
-            var currentYPosition = self.view.frame.size.height - 100
-            let verticalSpacing: CGFloat = 10
-
-            for toast in ToastConfig.activeToasts.reversed() {
-                let expectedSize = toast.sizeThatFits(CGSize(width: toast.frame.width - 20, height: CGFloat.greatestFiniteMagnitude))
-                currentYPosition -= (expectedSize.height + 20 + verticalSpacing)
-                toast.frame.origin.y = currentYPosition
-            }
-        }
-    }
 }
 
 enum OSLogger {

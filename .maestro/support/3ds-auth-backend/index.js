@@ -14,7 +14,14 @@ app.use(cors());
 
 let bt;
 (async () => {
-  bt = await new BasisTheory().init(process.env.BT_API_KEY_PVT, {
+  let apiKey = process.env.BT_API_KEY_PVT;
+
+
+  if (!apiKey) {
+    throw Error("Missing api key");
+  }
+
+  bt = await new BasisTheory().init(apiKey, {
     apiBaseUrl: "https://api.flock-dev.com",
   });
 })();

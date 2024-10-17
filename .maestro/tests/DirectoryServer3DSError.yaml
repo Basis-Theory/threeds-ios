@@ -2,11 +2,10 @@ appId: com.basistheory.ThreeDSTester
 ---
 - launchApp
 
-
 # Ravelin SDK initializes correctly
-
-
-- assertVisible: "An emulator is being used to run the App."
+- extendedWaitUntil:
+    visible: "An emulator is being used to run the App."
+    timeout: 60000
 
 # Card 1
 - tapOn: "Token ID"
@@ -37,8 +36,3 @@ appId: com.basistheory.ThreeDSTester
 - assertVisible: "Unable to authenticate, 3DS service responded 502"
 - tapOn: "Clear"
 - stopApp
-
-
-## AuthenticationUnavailableWithChallengeAndCardholderNotEnrolled
-## CardDoesNotSupport3DS
-## InternalErrorFrom3DSServer

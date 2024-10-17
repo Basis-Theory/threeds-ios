@@ -3,12 +3,14 @@ appId: com.basistheory.ThreeDSTester
 - launchApp
 
 # Ravelin SDK initializes correctly
-
-- assertVisible: "An emulator is being used to run the App."
+- extendedWaitUntil:
+    visible: "An emulator is being used to run the App."
+    timeout: 60000
 
 # Card1
 - tapOn: "Token ID"
 - inputText: "9f17f40f-5a72-420d-96cb-2b9a5cebba4d" # 4200000000000009 Visa
+
 - tapOn:
     text: "Create Session"
     retryTapIfNoChange: false
@@ -36,6 +38,7 @@ appId: com.basistheory.ThreeDSTester
 
 - tapOn: "Token ID"
 - inputText: "cebdd87e-4e2f-46ae-9d79-7b394b5d4839" #  36700102000000 Diners
+
 - tapOn:
     text: "Create Session"
     retryTapIfNoChange: false

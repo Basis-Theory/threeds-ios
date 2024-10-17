@@ -12,7 +12,6 @@
 		0A5B9E132CB770440040ED5C /* ThreeDSService+createSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DD72CB760E10040ED5C /* ThreeDSService+createSession.swift */; };
 		0A5B9E142CB770440040ED5C /* ThreeDSService+startChallenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DD52CB760C20040ED5C /* ThreeDSService+startChallenge.swift */; };
 		0A5B9E152CB770440040ED5C /* ThreeDSService+makeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DD32CB760630040ED5C /* ThreeDSService+makeRequest.swift */; };
-		0A5B9E162CB770440040ED5C /* ThreeDSSerivice+initialize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DD12CB75FDA0040ED5C /* ThreeDSSerivice+initialize.swift */; };
 		0A5B9E172CB770440040ED5C /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DCF2CB75F8D0040ED5C /* Logger.swift */; };
 		0A5B9E182CB770440040ED5C /* ThreeDSServiceBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DCD2CB75F770040ED5C /* ThreeDSServiceBuilder.swift */; };
 		0A5B9E192CB770440040ED5C /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DCB2CB75EDD0040ED5C /* Utils.swift */; };
@@ -22,7 +21,7 @@
 		0A5B9E1D2CB770440040ED5C /* AuthenticationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DF12CB7669D0040ED5C /* AuthenticationResponse.swift */; };
 		0A5B9E1E2CB770440040ED5C /* CreateThreeDsSessionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DEF2CB766700040ED5C /* CreateThreeDsSessionResponse.swift */; };
 		0A5B9E1F2CB770440040ED5C /* ChallengeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DC72CB75C2E0040ED5C /* ChallengeHandler.swift */; };
-		0A5B9E202CB770440040ED5C /* libThreeDS.a in Sources */ = {isa = PBXBuildFile; fileRef = 0AD0E50C2CA5F9020075DCFD /* libThreeDS.a */; };
+		0AEE042C2CC0685A00EC1DFC /* ThreeDSService+initialize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DD12CB75FDA0040ED5C /* ThreeDSService+initialize.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -42,7 +41,7 @@
 		0A5B9DCB2CB75EDD0040ED5C /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		0A5B9DCD2CB75F770040ED5C /* ThreeDSServiceBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDSServiceBuilder.swift; sourceTree = "<group>"; };
 		0A5B9DCF2CB75F8D0040ED5C /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
-		0A5B9DD12CB75FDA0040ED5C /* ThreeDSSerivice+initialize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThreeDSSerivice+initialize.swift"; sourceTree = "<group>"; };
+		0A5B9DD12CB75FDA0040ED5C /* ThreeDSService+initialize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThreeDSService+initialize.swift"; sourceTree = "<group>"; };
 		0A5B9DD32CB760630040ED5C /* ThreeDSService+makeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThreeDSService+makeRequest.swift"; sourceTree = "<group>"; };
 		0A5B9DD52CB760C20040ED5C /* ThreeDSService+startChallenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThreeDSService+startChallenge.swift"; sourceTree = "<group>"; };
 		0A5B9DD72CB760E10040ED5C /* ThreeDSService+createSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThreeDSService+createSession.swift"; sourceTree = "<group>"; };
@@ -102,7 +101,7 @@
 				0A5B9DD72CB760E10040ED5C /* ThreeDSService+createSession.swift */,
 				0A5B9DD52CB760C20040ED5C /* ThreeDSService+startChallenge.swift */,
 				0A5B9DD32CB760630040ED5C /* ThreeDSService+makeRequest.swift */,
-				0A5B9DD12CB75FDA0040ED5C /* ThreeDSSerivice+initialize.swift */,
+				0A5B9DD12CB75FDA0040ED5C /* ThreeDSService+initialize.swift */,
 				0A5B9DCF2CB75F8D0040ED5C /* Logger.swift */,
 				0A5B9DCD2CB75F770040ED5C /* ThreeDSServiceBuilder.swift */,
 				0A5B9DCB2CB75EDD0040ED5C /* Utils.swift */,
@@ -201,11 +200,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AEE042C2CC0685A00EC1DFC /* ThreeDSService+initialize.swift in Sources */,
 				0A5B9E122CB770440040ED5C /* ThreeDSService.swift in Sources */,
 				0A5B9E132CB770440040ED5C /* ThreeDSService+createSession.swift in Sources */,
 				0A5B9E142CB770440040ED5C /* ThreeDSService+startChallenge.swift in Sources */,
 				0A5B9E152CB770440040ED5C /* ThreeDSService+makeRequest.swift in Sources */,
-				0A5B9E162CB770440040ED5C /* ThreeDSSerivice+initialize.swift in Sources */,
 				0A5B9E172CB770440040ED5C /* Logger.swift in Sources */,
 				0A5B9E182CB770440040ED5C /* ThreeDSServiceBuilder.swift in Sources */,
 				0A5B9E192CB770440040ED5C /* Utils.swift in Sources */,
@@ -215,7 +214,6 @@
 				0A5B9E1D2CB770440040ED5C /* AuthenticationResponse.swift in Sources */,
 				0A5B9E1E2CB770440040ED5C /* CreateThreeDsSessionResponse.swift in Sources */,
 				0A5B9E1F2CB770440040ED5C /* ChallengeHandler.swift in Sources */,
-				0A5B9E202CB770440040ED5C /* libThreeDS.a in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -54,7 +54,7 @@ extension ThreeDSService {
                             details: error.localizedDescription))
                 }
         } catch let error as ThreeDSServiceError {
-            if case let .invalidResponse = error {
+            if case .invalidResponse = error {
                 throw ThreeDSServiceError.authenticationError(error.localizedDescription)
             }
             Logger.log("Unknown error: \(error)")
