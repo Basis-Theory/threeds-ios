@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    name: Testing 3DS Package
+    name: E2E
     runs-on: macOS-latest-xlarge
     steps:
       - name: Checkout repository
@@ -16,6 +16,7 @@ jobs:
       - name: Verify WWDR cert is installed
         run: |
           security find-certificate -a -c "Apple Worldwide Developer Relations Certification Authority" /Library/Keychains/System.keychain
+
       - uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: 'latest-stable'
@@ -23,8 +24,16 @@ jobs:
       - name: Clean Derived Data
         run: rm -rf ~/Library/Developer/Xcode/DerivedData/*
 
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 11
+
       - name: Install Maestro
         run: |
+          brew tap facebook/fb
+          brew install facebook/fb/idb-companion
           curl -Ls "https://get.maestro.mobile.dev" | bash
           echo "$HOME/.maestro/bin" >> $GITHUB_PATH
 
@@ -38,12 +47,31 @@ jobs:
           chmod 600 ~/.netrc
 
       - run: npx envinfo
+
+      - name: Start dev server
+        run: make start-dev-server
+        env:
+          BT_API_KEY_PVT: ${{ secrets.BT_API_KEY_PVT }}
       
       - name: Testing with ThreeDSTester app
-        run: exec .github/scripts/integration-test.sh
+        run: make integration-test
         env:
-          DEV_BT_API_KEY: ${{ secrets.DEV_BT_API_KEY }}
-          DEV_PRIVATE_BT_API_KEY: ${{ secrets.DEV_PRIVATE_BT_API_KEY }}
+          BT_API_KEY_PUB: ${{ secrets.BT_API_KEY_PUB }}
+
+      - name: Generate Report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: E2E Report (31, x86_64, default)
+          path: |
+            ${{ github.workspace }}/*.mp4
+            ${{ github.workspace }}/*.mov
+            ${{ github.workspace }}/*.png
+            ${{ github.workspace }}/report*.xml
+            ~/.maestro/tests/**/*
+            /private/tmp/*.tar.gz
+            ~/Library/Logs/DiagnosticReports/*
+
 
   dependency-check-test:
     name: Dependency Check Test

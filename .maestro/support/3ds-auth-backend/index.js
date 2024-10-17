@@ -3,7 +3,7 @@ var cors = require("cors");
 var bodyParser = require("body-parser");
 const { BasisTheory } = require("@basis-theory/basis-theory-js");
 
-require('dotenv').config()
+require("dotenv").config();
 
 var app = express();
 
@@ -14,7 +14,14 @@ app.use(cors());
 
 let bt;
 (async () => {
-  bt = await new BasisTheory().init(process.env.BT_API_KEY_PVT, {
+  let apiKey = process.env.BT_API_KEY_PVT;
+
+
+  if (!apiKey) {
+    throw Error("Missing api key");
+  }
+
+  bt = await new BasisTheory().init(apiKey, {
     apiBaseUrl: "https://api.flock-dev.com",
   });
 })();
@@ -50,7 +57,6 @@ app.post("/3ds/authenticate", async (req, res) => {
       },
     });
 
-
     res.status(200).send({
       ...response,
       // include these to increase sucess rate during challenge evaluation
@@ -62,7 +68,6 @@ app.post("/3ds/authenticate", async (req, res) => {
     res.status(e.status).send(e.data);
   }
 });
-
 
 app.post("/3ds/get-result", async (req, res) => {
   try {

@@ -1,0 +1,30 @@
+appId: com.basistheory.ThreeDSTester
+---
+- launchApp
+
+# Ravelin SDK initializes correctly
+- extendedWaitUntil:
+    visible: "An emulator is being used to run the App."
+    timeout: 60000
+
+# Card 1
+- tapOn: "Token ID"
+- inputText: "8b739401-8371-4a82-b49e-5ab8338ddaff" #  4200000000000013 VISA
+
+- tapOn:
+    text: "Create Session"
+    retryTapIfNoChange: false
+- assertVisible: "Unable to create session, 3DS service responded 500"
+- tapOn: "Clear"
+
+# Card 2
+
+- tapOn: "Token ID"
+- inputText: "4a2a306c-1570-4dc2-adb6-297dea50bd32" #  5019717010103742 Dankort
+
+- tapOn:
+      text: "Create Session"
+      retryTapIfNoChange: false
+- assertVisible: "Unable to create session, 3DS service responded 500"
+- tapOn: "Clear"
+- stopApp
