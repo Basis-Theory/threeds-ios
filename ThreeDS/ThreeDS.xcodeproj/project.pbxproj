@@ -21,6 +21,7 @@
 		0A5B9E1D2CB770440040ED5C /* AuthenticationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DF12CB7669D0040ED5C /* AuthenticationResponse.swift */; };
 		0A5B9E1E2CB770440040ED5C /* CreateThreeDsSessionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DEF2CB766700040ED5C /* CreateThreeDsSessionResponse.swift */; };
 		0A5B9E1F2CB770440040ED5C /* ChallengeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DC72CB75C2E0040ED5C /* ChallengeHandler.swift */; };
+		0ADFF2372CC16889003E386D /* libThreeDS.a in Sources */ = {isa = PBXBuildFile; fileRef = 0AD0E50C2CA5F9020075DCFD /* libThreeDS.a */; };
 		0AEE042C2CC0685A00EC1DFC /* ThreeDSService+initialize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DD12CB75FDA0040ED5C /* ThreeDSService+initialize.swift */; };
 /* End PBXBuildFile section */
 
@@ -200,6 +201,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0ADFF2372CC16889003E386D /* libThreeDS.a in Sources */,
 				0AEE042C2CC0685A00EC1DFC /* ThreeDSService+initialize.swift in Sources */,
 				0A5B9E122CB770440040ED5C /* ThreeDSService.swift in Sources */,
 				0A5B9E132CB770440040ED5C /* ThreeDSService+createSession.swift in Sources */,
