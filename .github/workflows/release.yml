@@ -37,11 +37,10 @@ jobs:
 
           sed -i "" "s/\(s.version = \)'[^']*'/\1'${{ steps.tag-version.outputs.new_tag }}'/g" ThreeDS.podspec
           sed -i "" "s/\(:tag => \)'[^']*'/\1'${{ steps.tag-version.outputs.new_tag }}'/g" ThreeDS.podspec
-          sed -i "" "s/\(public static let version = \)\"[^\"]*\"/\1\"${{ steps.tag-version.outputs.new_tag }}\"/g" ThreeDS/Sources/ThreeDS/ThreeDS.swift
 
           echo "${{ steps.tag-version.outputs.changelog }}" | cat - CHANGELOG.md > temp && mv temp CHANGELOG.md
 
-          git add CHANGELOG.md ThreeDS.podspec ThreeDS/Sources/ThreeDS/ThreeDS.swift
+          git add CHANGELOG.md ThreeDS.podspec
           git commit -m "chore(release): upating podspec and changelog ${{ steps.tag-version.outputs.new_tag }} [skip ci]" || echo "Nothing to update"
 
       - name: Push changes
