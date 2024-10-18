@@ -1,3 +1,11 @@
+### [0.2.2](https://github.com/Basis-Theory/3ds-ios/compare/v0.2.1...0.2.2) (2024-10-18)
+
+
+### Bug Fixes
+
+* remove tag prefix ([#11](https://github.com/Basis-Theory/3ds-ios/issues/11)) ([116b7f2](https://github.com/Basis-Theory/3ds-ios/commit/116b7f2abd76538cc8325fb0fd3ee9638b10b3cf))
+
+
 ### [0.2.1](https://github.com/Basis-Theory/3ds-ios/compare/v0.2.0...v0.2.1) (2024-10-18)
 
 
