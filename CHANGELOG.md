@@ -1,3 +1,11 @@
+### [0.2.1](https://github.com/Basis-Theory/3ds-ios/compare/v0.2.0...v0.2.1) (2024-10-18)
+
+
+### Bug Fixes
+
+* run formatter ([#10](https://github.com/Basis-Theory/3ds-ios/issues/10)) ([6b7df26](https://github.com/Basis-Theory/3ds-ios/commit/6b7df26e157beed0f5d85b95fb65fe63d8f16d57))
+
+
 ## [0.2.0](https://github.com/Basis-Theory/3ds-ios/compare/v0.1.0...0.2.0) (2024-10-18)
 
 
