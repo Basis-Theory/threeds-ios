@@ -15,7 +15,6 @@ enum ThreeDSServiceError: Error, LocalizedError {
     case sessionCreationError(String)
     case authenticationError(String)
 
-    // Conforming to LocalizedError to provide custom error descriptions
     var errorDescription: String? {
         switch self {
         case .sessionCreationError(let message):

@@ -23,7 +23,6 @@ struct RavelinKeys: Codable {
     let live: String
 }
 
-
 enum RenderOptions: String {
     case native = "01"
 
@@ -46,6 +45,3 @@ enum UiTypes: String {
 enum RegionEnum {
     case EU, US
 }
-
-
-
