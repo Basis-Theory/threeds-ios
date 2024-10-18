@@ -30,7 +30,6 @@ extension ThreeDSService {
             paramValue: self.sandbox ? keys.test : keys.live)
 
         do {
-            // TODO: rewrite to use async/await(?)
             try self.service.initialize(
                 configParameters: configParameters, locale: self.locale, uiCustomization: nil
             ) { success in
