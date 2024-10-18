@@ -23,7 +23,8 @@ public class ThreeDSService {
     var apiKey: String
 
     public init(
-        apiKey: String, region: String, locale: String, sandbox: Bool, apiBaseUrl: String, authenticationEndpoint: String
+        apiKey: String, region: String, locale: String, sandbox: Bool, apiBaseUrl: String,
+        authenticationEndpoint: String
     ) {
         self.apiKey = apiKey
         self.region = region
@@ -40,9 +41,3 @@ public class ThreeDSService {
         return ThreeDSServiceBuilder()
     }
 }
-
-
-
-
-
-

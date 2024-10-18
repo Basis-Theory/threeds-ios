@@ -35,8 +35,7 @@ class ChallengeHandler: ChallengeStatusReceiver {
     }
 
     func completed(completionEvent: CompletionEvent) {
-        if let transactionStatus = transactionStatusMap[completionEvent.getTransactionStatus()]
-        {
+        if let transactionStatus = transactionStatusMap[completionEvent.getTransactionStatus()] {
             Logger.log("challenge completed with status: \(transactionStatus)")
             onCompleted(
                 ChallengeResponse(
