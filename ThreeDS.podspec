@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
   s.name = 'ThreeDS'
   s.ios.deployment_target = '15.6'
-  s.version = '0.2.2'
-  s.source = { :git => 'https://github.com/Basis-Theory/3ds-ios.git', :tag => '0.2.2' }
+  s.version = '0.3.0'
+  s.source = { :git => 'https://github.com/Basis-Theory/3ds-ios.git', :tag => '0.3.0' }
   s.authors = 'BasisTheory'
   s.license = 'Apache'
   s.homepage = 'https://github.com/Basis-Theory/3ds-ios'

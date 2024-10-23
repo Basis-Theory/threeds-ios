@@ -1,3 +1,11 @@
+## [0.3.0](https://github.com/Basis-Theory/3ds-ios/compare/0.2.2...0.3.0) (2024-10-23)
+
+
+### Features
+
+* adds support for custom headers during authentication ([#12](https://github.com/Basis-Theory/3ds-ios/issues/12)) ([6c12dbb](https://github.com/Basis-Theory/3ds-ios/commit/6c12dbb1d1e2485d3c29a9a9853bcd05da628a72))
+
+
 ### [0.2.2](https://github.com/Basis-Theory/3ds-ios/compare/v0.2.1...0.2.2) (2024-10-18)
 
 
