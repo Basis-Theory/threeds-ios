@@ -78,7 +78,8 @@ extension ThreeDSService {
             url: authenticationEndpoint,
             method: "POST",
             body: requestBody,
-            expectedStatusCodes: [200]
+            expectedStatusCodes: [200],
+            customHeaders: authenticationEndpointHeaders
         )
     }
 

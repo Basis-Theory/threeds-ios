@@ -14,6 +14,7 @@ public class ThreeDSServiceBuilder {
     private var locale: String?
     private var sandbox: Bool = false
     private var authenticationEndpoint: String?
+    private var authenticationEndpointHeaders: [String: String] = [:]
     private var apiBaseUrl: String = "api.basistheory.com"
 
     init() {
@@ -27,10 +28,11 @@ public class ThreeDSServiceBuilder {
     }
 
     @discardableResult
-    public func withAuthenticationEndpoint(_ authenticationEndpoint: String)
+    public func withAuthenticationEndpoint(_ authenticationEndpoint: String, authenticationEndpointHeaders: [String: String]? = [:])
         -> ThreeDSServiceBuilder
     {
         self.authenticationEndpoint = authenticationEndpoint
+        self.authenticationEndpointHeaders = authenticationEndpointHeaders ?? [:]
         return self
     }
 
@@ -76,7 +78,8 @@ public class ThreeDSServiceBuilder {
             locale: localeOrDefault,
             sandbox: sandbox,
             apiBaseUrl: apiBaseUrl,
-            authenticationEndpoint: authenticationEndpoint
+            authenticationEndpoint: authenticationEndpoint,
+            authenticationEndpointHeaders: authenticationEndpointHeaders
         )
     }
 }
