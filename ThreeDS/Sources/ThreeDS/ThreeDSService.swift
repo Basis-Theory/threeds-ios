@@ -20,11 +20,12 @@ public class ThreeDSService {
     var service: ThreeDS2Service!
     var transaction: Transaction!
     var challengeReceiver: ChallengeHandler!
+    var authenticationEndpointHeaders: [String: String]
     var apiKey: String
 
     public init(
         apiKey: String, region: String, locale: String, sandbox: Bool, apiBaseUrl: String,
-        authenticationEndpoint: String
+        authenticationEndpoint: String, authenticationEndpointHeaders: [String: String]
     ) {
         self.apiKey = apiKey
         self.region = region
@@ -32,7 +33,7 @@ public class ThreeDSService {
         self.sandbox = sandbox
         self.apiBaseUrl = apiBaseUrl
         self.authenticationEndpoint = authenticationEndpoint
-
+        self.authenticationEndpointHeaders = authenticationEndpointHeaders
         self.service = ThreeDS2SDK()
         self.decoder.keyDecodingStrategy = .convertFromSnakeCase
     }
