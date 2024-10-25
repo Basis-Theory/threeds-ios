@@ -1,3 +1,11 @@
+## [0.4.0](https://github.com/Basis-Theory/3ds-ios/compare/0.3.0...0.4.0) (2024-10-25)
+
+
+### Features
+
+* update ravelin3ds ([#13](https://github.com/Basis-Theory/3ds-ios/issues/13)) ([6296c7f](https://github.com/Basis-Theory/3ds-ios/commit/6296c7f596a47b17df7b18ba24f79b8dba79124e))
+
+
 ## [0.3.0](https://github.com/Basis-Theory/3ds-ios/compare/0.2.2...0.3.0) (2024-10-23)
 
 
