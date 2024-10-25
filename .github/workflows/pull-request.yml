@@ -37,15 +37,6 @@ jobs:
           curl -Ls "https://get.maestro.mobile.dev" | bash
           echo "$HOME/.maestro/bin" >> $GITHUB_PATH
 
-      - name: Create .netrc file
-        run: |
-          cat <<EOF > ~/.netrc
-          machine ravelin.mycloudrepo.io
-            login ${{ vars.RAVELIN_SDK_USERNAME }} 
-            password ${{ secrets.RAVELIN_SDK_PASSWORD }}  
-          EOF
-          chmod 600 ~/.netrc
-
       - run: npx envinfo
 
       - name: Start dev server

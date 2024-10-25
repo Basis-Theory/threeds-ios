@@ -7,22 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A5B92682CA716470040ED5C /* Ravelin3DS in Frameworks */ = {isa = PBXBuildFile; productRef = 0A5B92672CA716470040ED5C /* Ravelin3DS */; };
-		0A5B9E122CB770440040ED5C /* ThreeDSService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD0E5B22CA61B0A0075DCFD /* ThreeDSService.swift */; };
-		0A5B9E132CB770440040ED5C /* ThreeDSService+createSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DD72CB760E10040ED5C /* ThreeDSService+createSession.swift */; };
-		0A5B9E142CB770440040ED5C /* ThreeDSService+startChallenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DD52CB760C20040ED5C /* ThreeDSService+startChallenge.swift */; };
-		0A5B9E152CB770440040ED5C /* ThreeDSService+makeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DD32CB760630040ED5C /* ThreeDSService+makeRequest.swift */; };
-		0A5B9E172CB770440040ED5C /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DCF2CB75F8D0040ED5C /* Logger.swift */; };
-		0A5B9E182CB770440040ED5C /* ThreeDSServiceBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DCD2CB75F770040ED5C /* ThreeDSServiceBuilder.swift */; };
-		0A5B9E192CB770440040ED5C /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DCB2CB75EDD0040ED5C /* Utils.swift */; };
-		0A5B9E1A2CB770440040ED5C /* UpdateThreeDsSessionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DF72CB766D10040ED5C /* UpdateThreeDsSessionRequest.swift */; };
-		0A5B9E1B2CB770440040ED5C /* ThreeDSServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DF52CB766BB0040ED5C /* ThreeDSServiceError.swift */; };
-		0A5B9E1C2CB770440040ED5C /* ChallengeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DF32CB766AD0040ED5C /* ChallengeResponse.swift */; };
-		0A5B9E1D2CB770440040ED5C /* AuthenticationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DF12CB7669D0040ED5C /* AuthenticationResponse.swift */; };
-		0A5B9E1E2CB770440040ED5C /* CreateThreeDsSessionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DEF2CB766700040ED5C /* CreateThreeDsSessionResponse.swift */; };
-		0A5B9E1F2CB770440040ED5C /* ChallengeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DC72CB75C2E0040ED5C /* ChallengeHandler.swift */; };
-		0ADFF2372CC16889003E386D /* libThreeDS.a in Sources */ = {isa = PBXBuildFile; fileRef = 0AD0E50C2CA5F9020075DCFD /* libThreeDS.a */; };
-		0AEE042C2CC0685A00EC1DFC /* ThreeDSService+initialize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DD12CB75FDA0040ED5C /* ThreeDSService+initialize.swift */; };
+		0A801AB32CCAC72F00275D04 /* ThreeDSService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AD0E5B22CA61B0A0075DCFD /* ThreeDSService.swift */; };
+		0A801AB42CCAC72F00275D04 /* ThreeDSService+createSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DD72CB760E10040ED5C /* ThreeDSService+createSession.swift */; };
+		0A801AB52CCAC72F00275D04 /* ThreeDSService+startChallenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DD52CB760C20040ED5C /* ThreeDSService+startChallenge.swift */; };
+		0A801AB62CCAC72F00275D04 /* ThreeDSService+makeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DD32CB760630040ED5C /* ThreeDSService+makeRequest.swift */; };
+		0A801AB72CCAC72F00275D04 /* ThreeDSService+initialize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DD12CB75FDA0040ED5C /* ThreeDSService+initialize.swift */; };
+		0A801AB82CCAC72F00275D04 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DCF2CB75F8D0040ED5C /* Logger.swift */; };
+		0A801AB92CCAC72F00275D04 /* ThreeDSServiceBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DCD2CB75F770040ED5C /* ThreeDSServiceBuilder.swift */; };
+		0A801ABA2CCAC72F00275D04 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DCB2CB75EDD0040ED5C /* Utils.swift */; };
+		0A801ABB2CCAC72F00275D04 /* UpdateThreeDsSessionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DF72CB766D10040ED5C /* UpdateThreeDsSessionRequest.swift */; };
+		0A801ABC2CCAC72F00275D04 /* ThreeDSServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DF52CB766BB0040ED5C /* ThreeDSServiceError.swift */; };
+		0A801ABD2CCAC72F00275D04 /* ChallengeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DF32CB766AD0040ED5C /* ChallengeResponse.swift */; };
+		0A801ABE2CCAC72F00275D04 /* AuthenticationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DF12CB7669D0040ED5C /* AuthenticationResponse.swift */; };
+		0A801ABF2CCAC72F00275D04 /* CreateThreeDsSessionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DEF2CB766700040ED5C /* CreateThreeDsSessionResponse.swift */; };
+		0A801AC02CCAC72F00275D04 /* ChallengeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DC72CB75C2E0040ED5C /* ChallengeHandler.swift */; };
+		0AAFF64A2CCADD620011F034 /* Ravelin3DS in Frameworks */ = {isa = PBXBuildFile; productRef = 0AAFF6492CCADD620011F034 /* Ravelin3DS */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -62,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A5B92682CA716470040ED5C /* Ravelin3DS in Frameworks */,
+				0AAFF64A2CCADD620011F034 /* Ravelin3DS in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,9 +135,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0AD0E5132CA5F9020075DCFD /* Build configuration list for PBXNativeTarget "ThreeDS" */;
 			buildPhases = (
-				0AD0E5082CA5F9020075DCFD /* Sources */,
 				0AD0E5092CA5F9020075DCFD /* Frameworks */,
 				0AD0E50A2CA5F9020075DCFD /* CopyFiles */,
+				0A801AB22CCAC72800275D04 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -146,7 +145,7 @@
 			);
 			name = ThreeDS;
 			packageProductDependencies = (
-				0A5B92672CA716470040ED5C /* Ravelin3DS */,
+				0AAFF6492CCADD620011F034 /* Ravelin3DS */,
 			);
 			productName = ThreeDS;
 			productReference = 0AD0E50C2CA5F9020075DCFD /* libThreeDS.a */;
@@ -179,7 +178,7 @@
 			mainGroup = 0AD0E5032CA5F9020075DCFD;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				0A5B92662CA716470040ED5C /* XCRemoteSwiftPackageReference "ravelin-3ds-sdk-ios-xcframework-distribution" */,
+				0AAFF6482CCADD620011F034 /* XCRemoteSwiftPackageReference "ravelin-3ds-sdk-ios-xcframework-distribution" */,
 			);
 			productRefGroup = 0AD0E50D2CA5F9020075DCFD /* Products */;
 			projectDirPath = "";
@@ -197,25 +196,24 @@
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		0AD0E5082CA5F9020075DCFD /* Sources */ = {
+		0A801AB22CCAC72800275D04 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0ADFF2372CC16889003E386D /* libThreeDS.a in Sources */,
-				0AEE042C2CC0685A00EC1DFC /* ThreeDSService+initialize.swift in Sources */,
-				0A5B9E122CB770440040ED5C /* ThreeDSService.swift in Sources */,
-				0A5B9E132CB770440040ED5C /* ThreeDSService+createSession.swift in Sources */,
-				0A5B9E142CB770440040ED5C /* ThreeDSService+startChallenge.swift in Sources */,
-				0A5B9E152CB770440040ED5C /* ThreeDSService+makeRequest.swift in Sources */,
-				0A5B9E172CB770440040ED5C /* Logger.swift in Sources */,
-				0A5B9E182CB770440040ED5C /* ThreeDSServiceBuilder.swift in Sources */,
-				0A5B9E192CB770440040ED5C /* Utils.swift in Sources */,
-				0A5B9E1A2CB770440040ED5C /* UpdateThreeDsSessionRequest.swift in Sources */,
-				0A5B9E1B2CB770440040ED5C /* ThreeDSServiceError.swift in Sources */,
-				0A5B9E1C2CB770440040ED5C /* ChallengeResponse.swift in Sources */,
-				0A5B9E1D2CB770440040ED5C /* AuthenticationResponse.swift in Sources */,
-				0A5B9E1E2CB770440040ED5C /* CreateThreeDsSessionResponse.swift in Sources */,
-				0A5B9E1F2CB770440040ED5C /* ChallengeHandler.swift in Sources */,
+				0A801AB32CCAC72F00275D04 /* ThreeDSService.swift in Sources */,
+				0A801AB42CCAC72F00275D04 /* ThreeDSService+createSession.swift in Sources */,
+				0A801AB52CCAC72F00275D04 /* ThreeDSService+startChallenge.swift in Sources */,
+				0A801AB62CCAC72F00275D04 /* ThreeDSService+makeRequest.swift in Sources */,
+				0A801AB72CCAC72F00275D04 /* ThreeDSService+initialize.swift in Sources */,
+				0A801AB82CCAC72F00275D04 /* Logger.swift in Sources */,
+				0A801AB92CCAC72F00275D04 /* ThreeDSServiceBuilder.swift in Sources */,
+				0A801ABA2CCAC72F00275D04 /* Utils.swift in Sources */,
+				0A801ABB2CCAC72F00275D04 /* UpdateThreeDsSessionRequest.swift in Sources */,
+				0A801ABC2CCAC72F00275D04 /* ThreeDSServiceError.swift in Sources */,
+				0A801ABD2CCAC72F00275D04 /* ChallengeResponse.swift in Sources */,
+				0A801ABE2CCAC72F00275D04 /* AuthenticationResponse.swift in Sources */,
+				0A801ABF2CCAC72F00275D04 /* CreateThreeDsSessionResponse.swift in Sources */,
+				0A801AC02CCAC72F00275D04 /* ChallengeHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,20 +402,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		0A5B92662CA716470040ED5C /* XCRemoteSwiftPackageReference "ravelin-3ds-sdk-ios-xcframework-distribution" */ = {
+		0AAFF6482CCADD620011F034 /* XCRemoteSwiftPackageReference "ravelin-3ds-sdk-ios-xcframework-distribution" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/unravelin/ravelin-3ds-sdk-ios-xcframework-distribution";
 			requirement = {
-				kind = exactVersion;
-				version = 1.1.1;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0A5B92672CA716470040ED5C /* Ravelin3DS */ = {
+		0AAFF6492CCADD620011F034 /* Ravelin3DS */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0A5B92662CA716470040ED5C /* XCRemoteSwiftPackageReference "ravelin-3ds-sdk-ios-xcframework-distribution" */;
+			package = 0AAFF6482CCADD620011F034 /* XCRemoteSwiftPackageReference "ravelin-3ds-sdk-ios-xcframework-distribution" */;
 			productName = Ravelin3DS;
 		};
 /* End XCSwiftPackageProductDependency section */

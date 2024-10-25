@@ -28,7 +28,7 @@ public class ThreeDSServiceBuilder {
     }
 
     @discardableResult
-    public func withAuthenticationEndpoint(_ authenticationEndpoint: String, authenticationEndpointHeaders: [String: String]? = [:])
+    public func withAuthenticationEndpoint(_ authenticationEndpoint: String, _ authenticationEndpointHeaders: [String: String]? = [:])
         -> ThreeDSServiceBuilder
     {
         self.authenticationEndpoint = authenticationEndpoint
