@@ -21,7 +21,7 @@
 		0A801ABE2CCAC72F00275D04 /* AuthenticationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DF12CB7669D0040ED5C /* AuthenticationResponse.swift */; };
 		0A801ABF2CCAC72F00275D04 /* CreateThreeDsSessionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DEF2CB766700040ED5C /* CreateThreeDsSessionResponse.swift */; };
 		0A801AC02CCAC72F00275D04 /* ChallengeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5B9DC72CB75C2E0040ED5C /* ChallengeHandler.swift */; };
-		0AAFF64A2CCADD620011F034 /* Ravelin3DS in Frameworks */ = {isa = PBXBuildFile; productRef = 0AAFF6492CCADD620011F034 /* Ravelin3DS */; };
+		0AAFF6862CCBF0030011F034 /* Ravelin3DS in Frameworks */ = {isa = PBXBuildFile; productRef = 0AAFF6852CCBF0030011F034 /* Ravelin3DS */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -61,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0AAFF64A2CCADD620011F034 /* Ravelin3DS in Frameworks */,
+				0AAFF6862CCBF0030011F034 /* Ravelin3DS in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,7 +145,7 @@
 			);
 			name = ThreeDS;
 			packageProductDependencies = (
-				0AAFF6492CCADD620011F034 /* Ravelin3DS */,
+				0AAFF6852CCBF0030011F034 /* Ravelin3DS */,
 			);
 			productName = ThreeDS;
 			productReference = 0AD0E50C2CA5F9020075DCFD /* libThreeDS.a */;
@@ -178,7 +178,7 @@
 			mainGroup = 0AD0E5032CA5F9020075DCFD;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				0AAFF6482CCADD620011F034 /* XCRemoteSwiftPackageReference "ravelin-3ds-sdk-ios-xcframework-distribution" */,
+				0AAFF6842CCBF0030011F034 /* XCRemoteSwiftPackageReference "ravelin-3ds-sdk-ios-xcframework-distribution" */,
 			);
 			productRefGroup = 0AD0E50D2CA5F9020075DCFD /* Products */;
 			projectDirPath = "";
@@ -402,7 +402,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		0AAFF6482CCADD620011F034 /* XCRemoteSwiftPackageReference "ravelin-3ds-sdk-ios-xcframework-distribution" */ = {
+		0AAFF6842CCBF0030011F034 /* XCRemoteSwiftPackageReference "ravelin-3ds-sdk-ios-xcframework-distribution" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/unravelin/ravelin-3ds-sdk-ios-xcframework-distribution";
 			requirement = {
@@ -413,9 +413,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0AAFF6492CCADD620011F034 /* Ravelin3DS */ = {
+		0AAFF6852CCBF0030011F034 /* Ravelin3DS */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0AAFF6482CCADD620011F034 /* XCRemoteSwiftPackageReference "ravelin-3ds-sdk-ios-xcframework-distribution" */;
+			package = 0AAFF6842CCBF0030011F034 /* XCRemoteSwiftPackageReference "ravelin-3ds-sdk-ios-xcframework-distribution" */;
 			productName = Ravelin3DS;
 		};
 /* End XCSwiftPackageProductDependency section */
