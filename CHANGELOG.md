@@ -1,3 +1,19 @@
+## [0.3.0](https://github.com/Basis-Theory/3ds-ios/compare/v0.2.0...0.3.0) (2024-10-25)
+
+
+### Features
+
+* adds support for custom headers during authentication ([#12](https://github.com/Basis-Theory/3ds-ios/issues/12)) ([6c12dbb](https://github.com/Basis-Theory/3ds-ios/commit/6c12dbb1d1e2485d3c29a9a9853bcd05da628a72))
+* update ravelin3ds ([#13](https://github.com/Basis-Theory/3ds-ios/issues/13)) ([6296c7f](https://github.com/Basis-Theory/3ds-ios/commit/6296c7f596a47b17df7b18ba24f79b8dba79124e))
+
+
+### Bug Fixes
+
+* re-add ravelin3ds ([#14](https://github.com/Basis-Theory/3ds-ios/issues/14)) ([8709d37](https://github.com/Basis-Theory/3ds-ios/commit/8709d37e500e3024ca963a06876fbdda8a6139c1))
+* remove tag prefix ([#11](https://github.com/Basis-Theory/3ds-ios/issues/11)) ([116b7f2](https://github.com/Basis-Theory/3ds-ios/commit/116b7f2abd76538cc8325fb0fd3ee9638b10b3cf))
+* run formatter ([#10](https://github.com/Basis-Theory/3ds-ios/issues/10)) ([6b7df26](https://github.com/Basis-Theory/3ds-ios/commit/6b7df26e157beed0f5d85b95fb65fe63d8f16d57))
+
+
 ## [0.4.0](https://github.com/Basis-Theory/3ds-ios/compare/0.3.0...0.4.0) (2024-10-25)
 
 
