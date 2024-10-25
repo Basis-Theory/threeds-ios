@@ -7,9 +7,14 @@ Pod::Spec.new do |s|
   s.license = 'Apache'
   s.homepage = 'https://github.com/Basis-Theory/3ds-ios'
   s.summary = 'BasisTheory 3DS iOS SDK'
-  s.dependency 'Ravelin3DS', '1.1.2'
   s.description = 'An SDK to support 3D Secure authentication for iOS applications using the BasisTheory platform.'
   s.source_files = 'ThreeDS/Sources/**/*.swift'
   s.swift_version = '5.5'
   s.pod_target_xcconfig = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'COCOAPODS=1' }
+
+  s.subspec 'Ravelin3DS' do |ss|
+    ss.dependency         'Ravelin3DS', '1.1.2'
+    ss.source             = { :http => "https://ravelin.mycloudrepo.io/public/repositories/threeds2service-ios/release/1.1.2/Ravelin3DS.xcframework.zip" }
+    ss.ios.vendored_frameworks = 'Ravelin3DS.xcframework'
+  end
 end
