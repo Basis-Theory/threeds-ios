@@ -1,0 +1,15 @@
+{
+  "originHash" : "c615c89aaea050b2c7d6159425aeab9e065554299b14c93d65f1f5f4fc746e23",
+  "pins" : [
+    {
+      "identity" : "ravelin-3ds-sdk-ios-xcframework-distribution",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/unravelin/ravelin-3ds-sdk-ios-xcframework-distribution",
+      "state" : {
+        "revision" : "ce36b54849409895b021c187862d88a294c5430e",
+        "version" : "1.1.2"
+      }
+    }
+  ],
+  "version" : 3
+}
