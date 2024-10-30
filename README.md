@@ -47,9 +47,6 @@ class ViewController: UIViewController {
                     onFailure: { [self] result in
                         print("Challenge \(result.status)")
                     })
-
-                print(session.id)
-
             } catch {
                 print(error.localizedDescription)
             }

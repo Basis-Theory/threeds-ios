@@ -81,5 +81,4 @@ extension ThreeDSService {
             customHeaders: authenticationEndpointHeaders
         )
     }
-
 }
