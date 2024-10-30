@@ -15,7 +15,6 @@ extension ThreeDSService {
         onFailure: @escaping (ChallengeResponse) -> Void
     ) async throws {
         do {
-
             let authenticationResponse = try await authenticateSession(sessionId: sessionId)
 
             do {
@@ -30,13 +29,13 @@ extension ThreeDSService {
                         "https://www.ravelin.com/?transID=\(try self.transaction.getAuthenticationRequestParameters().getSDKTransactionID())"
                     )
 
-                    challengeReceiver = ChallengeHandler(
+                    self.challengeReceiver = ChallengeHandler(
                         sessionId: sessionId, authenticationResponse: authenticationResponse,
-                        onCompleted: onCompleted, onFailure: onFailure, transaction: transaction)
+                        onCompleted: onCompleted, onFailure: onFailure)
 
                     try self.transaction.doChallenge(
                         challengeParameters: challengeParams,
-                        challengeStatusReceiver: challengeReceiver,
+                        challengeStatusReceiver: self.challengeReceiver,
                         timeOut: 5,
                         challengeView: ChallengeViewImplementation(viewController: viewController))
                 } else {

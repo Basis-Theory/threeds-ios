@@ -18,20 +18,17 @@ class ChallengeHandler: ChallengeStatusReceiver {
     ]
     let onCompleted: (ChallengeResponse) -> Void
     let onFailure: (ChallengeResponse) -> Void
-    let transaction: Transaction
 
     init(
         sessionId: String,
         authenticationResponse: AuthenticationResponse,
         onCompleted: @escaping (ChallengeResponse) -> Void,
-        onFailure: @escaping (ChallengeResponse) -> Void,
-        transaction: Transaction
+        onFailure: @escaping (ChallengeResponse) -> Void
     ) {
         self.sessionId = sessionId
         self.authenticationResponse = authenticationResponse
         self.onCompleted = onCompleted
         self.onFailure = onFailure
-        self.transaction = transaction
     }
 
     func completed(completionEvent: CompletionEvent) {
@@ -47,11 +44,9 @@ class ChallengeHandler: ChallengeStatusReceiver {
         } else {
             Logger.log("challenge failed successfully")
         }
-        closeTransaction()
     }
 
     func cancelled() {
-        closeTransaction()
         Logger.log("challenge cancelled")
         onFailure(
             ChallengeResponse(
@@ -61,7 +56,6 @@ class ChallengeHandler: ChallengeStatusReceiver {
     }
 
     func timedout() {
-        closeTransaction()
         Logger.log("challenge timed out")
         onFailure(
             ChallengeResponse(
@@ -71,7 +65,6 @@ class ChallengeHandler: ChallengeStatusReceiver {
     }
 
     func protocolError(protocolErrorEvent: ProtocolErrorEvent) {
-        closeTransaction()
         Logger.log("challenge protocol error: \(protocolErrorEvent.getErrorMessage())")
         onFailure(
             ChallengeResponse(
@@ -83,7 +76,6 @@ class ChallengeHandler: ChallengeStatusReceiver {
     }
 
     func runtimeError(runtimeErrorEvent: RuntimeErrorEvent) {
-        closeTransaction()
         Logger.log("challenge runtime error: \(runtimeErrorEvent.getErrorMessage())")
         onFailure(
             ChallengeResponse(
@@ -92,13 +84,5 @@ class ChallengeHandler: ChallengeStatusReceiver {
                 details: "RuntimeError \(runtimeErrorEvent.getErrorMessage())"
             )
         )
-    }
-
-    func closeTransaction() {
-        do {
-            try transaction.close()
-        } catch {
-            Logger.log("Unable to close transaction \(error.localizedDescription)")
-        }
     }
 }
