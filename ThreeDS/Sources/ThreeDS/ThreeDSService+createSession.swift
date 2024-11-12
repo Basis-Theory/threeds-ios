@@ -10,10 +10,17 @@ import Ravelin3DS
 @available(iOS 15.0, *)
 extension ThreeDSService {
     public func createSession(
-        tokenId: String
+        tokenId: String? = nil,
+        tokenIntentId: String? = nil
     ) async throws -> CreateThreeDsSessionResponse {
+        guard (tokenId == nil) != (tokenIntentId == nil) else {
+            throw ThreeDSServiceError.invalidParameters(
+                "Either tokenId or tokenIntentId must be provided, but not both."
+            )
+        }
+
         do {
-            let session = try await _createSession(tokenId: tokenId)
+            let session = try await _createSession(tokenId: tokenId, tokenIntentId: tokenIntentId)
 
             self.transaction = try service.createTransaction(
                 directoryServerID: session.directoryServerId,
@@ -35,12 +42,18 @@ extension ThreeDSService {
     }
 
     func _createSession(
-        tokenId: String
+        tokenId: String? = nil,
+        tokenIntentId: String? = nil
     ) async throws -> CreateThreeDsSessionResponse {
-        let jsonBody: [String: String] = [
-            "pan": tokenId,
-            "device": "app",
-        ]
+        var jsonBody: [String: String] = ["device": "app"]
+
+        if let tokenId = tokenId {
+            jsonBody["token_id"] = tokenId
+        }
+
+        if let tokenIntentId = tokenIntentId {
+            jsonBody["token_intent_id"] = tokenIntentId
+        }
 
         let requestBody = try JSONSerialization.data(withJSONObject: jsonBody, options: [])
 
