@@ -14,6 +14,7 @@ enum ThreeDSServiceError: Error, LocalizedError {
     case initializationError
     case sessionCreationError(String)
     case authenticationError(String)
+    case invalidParameters(String)
 
     var errorDescription: String? {
         switch self {
@@ -23,6 +24,8 @@ enum ThreeDSServiceError: Error, LocalizedError {
             return "Unable to authenticate, \(message)"
         case .invalidResponse(let statusCode):
             return "3DS service responded \(statusCode)"
+        case .invalidParameters(let message):
+            return "Invalid parameters: \(message)"
         default:
             return "An unknown error occurred."
         }
