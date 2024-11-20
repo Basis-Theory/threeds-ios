@@ -1,3 +1,11 @@
+### [0.4.1](https://github.com/Basis-Theory/threeds-ios/compare/0.4.0...0.4.1) (2024-11-20)
+
+
+### Bug Fixes
+
+* fix workflow secrets ([#18](https://github.com/Basis-Theory/threeds-ios/issues/18)) ([ede8984](https://github.com/Basis-Theory/threeds-ios/commit/ede898462b2b20108f63bd88c000c936488d08fd))
+
+
 ## [0.3.0](https://github.com/Basis-Theory/3ds-ios/compare/v0.2.0...0.3.0) (2024-10-28)
 
 
