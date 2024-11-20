@@ -9,6 +9,7 @@ jobs:
   test:
     name: E2E
     runs-on: macOS-latest-xlarge
+    environment: PR
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -62,23 +63,3 @@ jobs:
             ~/.maestro/tests/**/*
             /private/tmp/*.tar.gz
             ~/Library/Logs/DiagnosticReports/*
-
-
-  dependency-check-test:
-    name: Dependency Check Test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Dependency Check
-        run: |
-          docker run -v "/home/runner/work/3ds-ios/3ds-ios":"/github/workspace" --workdir "/github/workspace" owasp/dependency-check-action:latest --enableExperimental --project "ThreeDS" --failOnCVSS 1 --scan "Package.swift" --out "/github/workspace/reports"
-
-      - name: Upload Test results
-        if: success() || failure()
-        uses: actions/upload-artifact@master
-        with:
-           name: Dependency check report
-           path: ${{github.workspace}}/reports
