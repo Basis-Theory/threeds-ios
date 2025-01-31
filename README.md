@@ -1,5 +1,12 @@
 # Basis Theory iOS 3DS SDK
 
+> [!CAUTION]
+> This SDK has been deprecated.
+>
+> Our new SDK can be found at https://github.com/Basis-Theory/ios-threeds
+>
+> See our documentation site for more information. https://developers.basistheory.com/docs/sdks/mobile/3ds/?platform=ios
+
 ## Installation
 
 To add the Basis Theory iOS package using [Swift Package Manager](https://www.swift.org/package-manager/), open XCode and click on `File → Add Packages`, search for "https://github.com/Basis-Theory/3ds-ios", and click on `Copy Dependency`.
