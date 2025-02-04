@@ -8,7 +8,7 @@ on:
 jobs:
   test:
     name: E2E
-    runs-on: macOS-latest-xlarge
+    runs-on: macOS-15-xlarge
     environment: PR
     steps:
       - name: Checkout repository
