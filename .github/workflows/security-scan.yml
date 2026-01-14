@@ -33,7 +33,7 @@ jobs:
           channel-id: ${{ vars.SLACK_DUCKBOT_SECURITY_SCAN_ALERT_CHANNEL_ID}}
           payload: |
             {
-              "text": "Security Scan Failed"
+              "text": "Security Scan Failed",
               "blocks": [
                 {
                   "type": "section",
